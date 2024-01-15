@@ -1,5 +1,7 @@
 package com.example.wsbapp3;
 
+import java.io.Serializable;
+
 public class Ticket {
     private boolean OutwardJourney; //1 for to school, - for from school
     private String childId;

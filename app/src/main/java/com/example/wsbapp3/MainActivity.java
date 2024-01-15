@@ -3,27 +3,74 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.wsbapp3.Journey;
 import com.example.wsbapp3.JourneyProvider;
+import com.example.wsbapp3.databinding.ActivityMainBinding;
+import com.example.wsbapp3.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-            //makeJourneys();
-            //makeBusStops();
-            //makeChildren();
-            //makeJourneyBusStops();
-            //makeBusStopChildren();
-            makeTickets();
+    private String currentJourneyId;
 
-        }
+    private ActivityMainBinding binding;
+
+    public String getCurrentJourneyId() {
+        return currentJourneyId;
+    }
+
+    public void setCurrentJourneyId(String currentJourneyId) {
+        this.currentJourneyId = currentJourneyId;
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        currentJourneyId = "MBa1QzWDDB3hFxpDKZSn";
+        super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        replaceFragment(new HomeFragment());
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.home) {
+                replaceFragment(new HomeFragment());
+            } else if (itemId == R.id.route) {
+                replaceFragment(new RouteFragment());
+            } else if (itemId == R.id.scan) {
+                replaceFragment(new ScanFragment());
+            }
+
+            return true;
+        });
+
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.addToBackStack(null); // Add to back stack
+        fragmentTransaction.commit();
+    }
+
+        private void initialiseDatabase(){ //populates the database, including one fully populated journey with matching tickets
+        makeJourneys();
+        makeBusStops();
+        makeChildren();
+        makeJourneyBusStops();
+        makeBusStopChildren();
+        makeTickets();
+        currentJourneyId = "MBa1QzWDDB3hFxpDKZSn";
+    }
+
         private void makeJourneys() { //Creates top level collection of Journeys
             JourneyProvider provider = new JourneyProvider();
             provider.addJourney(new Journey("Evan Kelmp", "123215634", "09:00 01/10/2024", true));

@@ -1,5 +1,6 @@
 package com.example.wsbapp3;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.wsbapp3.Ticket;
@@ -15,9 +16,17 @@ public class TicketProvider {
     }
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference ticketCollection = db.collection("Tickets");
+
     public void fetchTicketById(String ticketId, TicketProvider.FetchTicketCallback callback) {
+        Log.d("CBSC", "fetchTicketById: " + ticketId); // Log the ticketId for debugging
+        if (TextUtils.isEmpty(ticketId)) {
+            Log.d("CBSC", "Invalid ticketId: " + ticketId);
+            callback.onTicketNotFound();
+            return;
+        }
         DocumentReference busStopDocumentRef = ticketCollection.document(ticketId);
-        Log.d("CBSC","fetchTicketbyId"+ticketId);
+        Log.d("CBSC", "Document reference: " + busStopDocumentRef.getPath()); // Log the document reference for debugging
+
         busStopDocumentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(Task<DocumentSnapshot> task) {
@@ -25,23 +34,21 @@ public class TicketProvider {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Ticket ticket = document.toObject(Ticket.class);
-                        Log.d("CBSC", "fetched ticket");
-
+                        Log.d("CBSC", "Fetched ticket: " + ticketId);
                         callback.onTicketFetched(ticket);
                     } else {
+                        Log.d("CBSC", "Ticket not found: " + ticketId);
                         callback.onTicketNotFound();
-                        Log.d("CBSC", "ticket not found");
-
                     }
                 } else {
                     Exception exception = task.getException();
+                    Log.d("CBSC", "Exception on fetch failed: " + exception.getMessage());
                     callback.onFetchFailed(exception.getMessage());
-                    Log.d("CBSC", "exception on fetch failed");
                 }
             }
         });
-
     }
+
     public interface FetchTicketCallback {
         void onTicketFetched(Ticket ticket);
         void onTicketNotFound();

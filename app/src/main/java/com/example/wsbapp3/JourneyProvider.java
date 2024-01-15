@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.type.DateTime;
 
@@ -16,6 +17,22 @@ public class JourneyProvider {
     private final CollectionReference journeysCollection = db.collection("Journeys");
 
     public JourneyProvider() {
+    }
+    public void addOnboardChild(String journeyId, Child child) { //add a Journey object to the top level Journeys collection
+        CollectionReference onboardChildren = journeysCollection.document(journeyId).collection("OnboardChildren");
+        onboardChildren.add(child)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(Task<DocumentReference> task) {
+                        if (task.isSuccessful()) {
+                            DocumentReference childDocument = task.getResult();
+                            Log.d("addOnboardChild", "Child document added with ID: " + childDocument.getId());
+                        } else {
+                            Log.e("addOnboardChild", "Error adding child document: " + task.getException().getMessage());
+                            // Handle the exception as needed
+                        }
+                    }
+                });
     }
 
     public void createJourneyBusStops(String journeyId, Map<String, String> busStopsWithTimes) {
@@ -83,4 +100,35 @@ public class JourneyProvider {
                     }
                 });
     }
-}
+
+        public void fetchJourneyById(String journeyId, FetchJourneyCallback callback) {
+            DocumentReference journeyRef = db.collection("Journeys").document(journeyId);
+
+            journeyRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Journey journey = document.toObject(Journey.class);
+                            callback.onJourneyFetched(journey);
+                        } else {
+                            callback.onJourneyNotFound();
+                        }
+                    } else {
+                        callback.onFetchFailed(task.getException().getMessage());
+                    }
+                }
+            });
+        }
+
+        // Other methods and classes
+
+        public interface FetchJourneyCallback {
+            void onJourneyFetched(Journey journey);
+
+            void onJourneyNotFound();
+
+            void onFetchFailed(String errorMessage);
+        }
+    }
