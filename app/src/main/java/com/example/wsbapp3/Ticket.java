@@ -1,7 +1,7 @@
 package com.example.wsbapp3;
 
 public class Ticket {
-    private boolean direction; //0 for to school, 1 for from school
+    private boolean OutwardJourney; //1 for to school, - for from school
     private String childId;
     private String busStopId;
     private String journeyId;
@@ -9,19 +9,19 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(boolean direction, String childId, String busStopId, String journeyId) {
-        this.direction = direction;
+    public Ticket(boolean outwardJourney, String childId, String busStopId, String journeyId) {
+        this.OutwardJourney = outwardJourney;
         this.childId = childId;
         this.busStopId = busStopId;
         this.journeyId = journeyId;
     }
 
-    public boolean getDirection() {
-        return direction;
+    public boolean getOutwardJourney() {
+        return this.OutwardJourney;
     }
 
-    public void setDirection(boolean direction) {
-        this.direction = direction;
+    public void setOutwardJourney(boolean outwardJourney) {
+        this.OutwardJourney = outwardJourney;
     }
 
     public String getChildId() {

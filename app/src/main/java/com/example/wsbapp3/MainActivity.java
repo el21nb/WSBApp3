@@ -19,8 +19,9 @@ public class MainActivity extends AppCompatActivity {
             //makeJourneys();
             //makeBusStops();
             //makeChildren();
-            makeJourneyBusStops();
-            makeBusStopChildren();
+            //makeJourneyBusStops();
+            //makeBusStopChildren();
+            makeTickets();
 
         }
         private void makeJourneys() { //Creates top level collection of Journeys
@@ -90,6 +91,19 @@ public class MainActivity extends AppCompatActivity {
         busStopChildMap.put("EmmaLopez", "Hilltop View");
         provider.createBusStopChildren("MBa1QzWDDB3hFxpDKZSn",busStopChildMap);
         }
+
+    private void makeTickets() {
+        TicketProvider provider = new TicketProvider();
+        provider.addTicket(new Ticket(true,"LiamSmith", "Brentwood Police Station","MBa1QzWDDB3hFxpDKZSn"));
+        provider.addTicket(new Ticket(true,"JacksonMiller", "Brentwood Police Station","MBa1QzWDDB3hFxpDKZSn"));
+        provider.addTicket(new Ticket(true,"SophiaDavis", "Riverfront Square","MBa1QzWDDB3hFxpDKZSn"));
+        provider.addTicket(new Ticket(true,"IsabellaYoung", "Ocean Breeze","MBa1QzWDDB3hFxpDKZSn"));
+        provider.addTicket(new Ticket(true,"OliviaJohnson", "Central Station","MBa1QzWDDB3hFxpDKZSn"));
+        provider.addTicket(new Ticket(true,"AvaRodriguez", "Central Station","MBa1QzWDDB3hFxpDKZSn"));
+        provider.addTicket(new Ticket(true,"NoahWilliams", "Central Station","MBa1QzWDDB3hFxpDKZSn"));
+        provider.addTicket(new Ticket(true,"OliviaGarcia", "Tech Hub","MBa1QzWDDB3hFxpDKZSn"));
+        provider.addTicket(new Ticket(true,"EmmaLopez", "Hilltop View","MBa1QzWDDB3hFxpDKZSn"));
+    }
 
     }
 
