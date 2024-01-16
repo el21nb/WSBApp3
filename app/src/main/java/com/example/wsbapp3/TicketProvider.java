@@ -10,6 +10,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class TicketProvider {
     public TicketProvider() {
@@ -48,16 +50,14 @@ public class TicketProvider {
             }
         });
     }
-
     public interface FetchTicketCallback {
         void onTicketFetched(Ticket ticket);
         void onTicketNotFound();
         void onFetchFailed(String errorMessage);
     }
 
-
     public void addTicket(Ticket ticket) { //add a ticket object to the top level tickets collection
-        DocumentReference ticketRef = ticketCollection.document();
+        DocumentReference ticketRef = ticketCollection.document(ticket.getTicketId());
         ticketRef.set(ticket)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

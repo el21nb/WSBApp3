@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Ticket {
     private boolean OutwardJourney; //1 for to school, - for from school
+    private String ticketId;
     private String childId;
     private String busStopId;
     private String journeyId;
@@ -11,11 +12,20 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(boolean outwardJourney, String childId, String busStopId, String journeyId) {
+    public Ticket(String ticketId, boolean outwardJourney, String childId, String busStopId, String journeyId) {
+        this.ticketId = ticketId;
         this.OutwardJourney = outwardJourney;
         this.childId = childId;
         this.busStopId = busStopId;
         this.journeyId = journeyId;
+    }
+
+    public String getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(String ticketId) {
+        this.ticketId = ticketId;
     }
 
     public boolean getOutwardJourney() {

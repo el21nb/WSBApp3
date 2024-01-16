@@ -4,18 +4,18 @@ public class Jacket {
     public Jacket() {
     }
 
-    private String identifier;
+    private String id;
 
     public String getIdentifier() {
-        return identifier;
+        return id;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public void setIdentifier(String id) {
+        this.id = id;
     }
 
-    public Jacket(String identifier) {
-        this.identifier = identifier;
+    public Jacket(String id) {
+        this.id = id;
     }
 
 }

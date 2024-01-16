@@ -20,7 +20,8 @@ public class Journey {
         id = id;
     }
 
-    public Journey(String driverName, String driverPhone, String journeyDateTime, boolean outwardJourney) {
+    public Journey(String id,String driverName, String driverPhone, String journeyDateTime, boolean outwardJourney) {
+        this.id = id;
         Contact contact = new Contact(driverName, driverPhone);
         this.driverContact = contact;
         this.journeyDateTime = journeyDateTime;

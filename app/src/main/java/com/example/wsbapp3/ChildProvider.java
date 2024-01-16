@@ -9,6 +9,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class ChildProvider {
     public ChildProvider() {
@@ -16,31 +18,32 @@ public class ChildProvider {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference childCollection = db.collection("Children");
     public void fetchChildById(String childId, ChildProvider.FetchChildCallback callback) {
-        DocumentReference busStopDocumentRef = childCollection.document(childId);
-        Log.d("CBSC","fetchChildbyId"+childId);
-        busStopDocumentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        // Query the Child collection to find the document with the specified childId
+        Query query = childCollection.whereEqualTo("id", childId);
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(Task<DocumentSnapshot> task) {
+            public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        // Assuming there's only one document with the specified childId
+                        DocumentSnapshot document = querySnapshot.getDocuments().get(0);
                         Child child = document.toObject(Child.class);
-                        Log.d("CBSC", "fetched child"+ child.getFirstName());
+                        Log.d("CBSC", "Fetched child: " + child.getFirstName());
 
                         callback.onChildFetched(child);
                     } else {
                         callback.onChildNotFound();
-                        Log.d("CBSC", "child not found");
-
+                        Log.d("CBSC", "Child not found");
                     }
                 } else {
                     Exception exception = task.getException();
                     callback.onFetchFailed(exception.getMessage());
-                    Log.d("CBSC", "exception on fetch failed");
+                    Log.d("CBSC", "Exception on fetch failed");
                 }
             }
         });
-
     }
     public interface FetchChildCallback {
         void onChildFetched(Child child);
@@ -50,7 +53,7 @@ public class ChildProvider {
 
 
     public void addChild(Child child) { //add a child object to the top level children collection
-        DocumentReference childRef = childCollection.document(child.getFirstName()+child.getLastName());
+        DocumentReference childRef = childCollection.document(child.getId());
         childRef.set(child)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

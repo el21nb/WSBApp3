@@ -60,7 +60,7 @@ public class JourneyProvider {
                     Map<String, Object> busStopData = new HashMap<>();
                     busStopData.put("busStop", busStop);
                     busStopData.put("arrivalTime", arrivalTime); // Convert DateTime to Date
-                    DocumentReference busStopRef = journeyBusStopsCollectionRef.document(busStop.getName());
+                    DocumentReference busStopRef = journeyBusStopsCollectionRef.document(busStopId);
 
                             // Add the Map to the subcollection
                     busStopRef.set(busStopData)
@@ -68,7 +68,7 @@ public class JourneyProvider {
                                 @Override
                                 public void onComplete(Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        String busStopId = busStop.getName();
+                                        String busStopId = busStop.getId();
                                         Log.d("JourneyProvider", "Bus Stop added to BusStops subcollection with ID: " + busStopId);
                                     } else {
                                         Exception exception = task.getException();
@@ -93,13 +93,15 @@ public class JourneyProvider {
     }
 
     public void addJourney(Journey journey) { //add a Journey object to the top level Journeys collection
-        journeysCollection.add(journey)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        // Set the ID of the Journey document to the Journey object's ID
+        DocumentReference journeyDocumentRef = journeysCollection.document(journey.getId());
+
+        journeyDocumentRef.set(journey)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(Task<DocumentReference> task) {
+                    public void onComplete(Task<Void> task) {
                         if (task.isSuccessful()) {
-                            DocumentReference journeyDocument = task.getResult();
-                            Log.d("addJourney", "Journey document added with ID: " + journeyDocument.getId());
+                            Log.d("addJourney", "Journey document added with ID: " + journey.getId());
                         } else {
                             Log.e("addJourney", "Error adding journey document: " + task.getException().getMessage());
                             // Handle the exception as needed

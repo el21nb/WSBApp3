@@ -9,7 +9,8 @@ public class BusStop {
 
     public BusStop() {
     }
-    public BusStop(String name, String address) {
+    public BusStop(String id, String name, String address) {
+        this.id = id;
         this.name = name;
         this.address = address;
     }

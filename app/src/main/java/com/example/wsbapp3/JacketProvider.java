@@ -1,5 +1,6 @@
 package com.example.wsbapp3;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.wsbapp3.Jacket;
@@ -9,6 +10,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class JacketProvider {
     public JacketProvider() {
@@ -16,32 +19,41 @@ public class JacketProvider {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference jacketCollection = db.collection("Jackets");
     public void fetchJacketById(String jacketId, JacketProvider.FetchJacketCallback callback) {
-        DocumentReference busStopDocumentRef = jacketCollection.document(jacketId);
-        Log.d("CBSC","fetchJacketbyId"+jacketId);
-        busStopDocumentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Jacket jacket = document.toObject(Jacket.class);
-                        Log.d("CBSC", "fetched jacket"+ jacket.getIdentifier());
+        Log.d("CBSC", "fetchJacketById: " + jacketId); // Log the jacketId for debugging
 
+        if (TextUtils.isEmpty(jacketId)) {
+            Log.d("CBSC", "Invalid jacketId: " + jacketId);
+            callback.onJacketNotFound();
+            return;
+        }
+
+        // Query the Jacket collection to find the document with the specified jacketId
+        Query query = jacketCollection.whereEqualTo("id", jacketId);
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        // Assuming there's only one document with the specified jacketId
+                        DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                        Jacket jacket = document.toObject(Jacket.class);
+                        Log.d("CBSC", "Fetched jacket: " + jacketId);
                         callback.onJacketFetched(jacket);
                     } else {
+                        Log.d("CBSC", "Jacket not found: " + jacketId);
                         callback.onJacketNotFound();
-                        Log.d("CBSC", "jacket not found");
-
                     }
                 } else {
                     Exception exception = task.getException();
+                    Log.d("CBSC", "Exception on fetch failed: " + exception.getMessage());
                     callback.onFetchFailed(exception.getMessage());
-                    Log.d("CBSC", "exception on fetch failed");
                 }
             }
         });
-
     }
+
     public interface FetchJacketCallback {
         void onJacketFetched(Jacket jacket);
         void onJacketNotFound();

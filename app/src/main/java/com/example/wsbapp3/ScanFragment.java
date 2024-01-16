@@ -105,7 +105,7 @@ public class ScanFragment extends Fragment {
                             MainActivity mainActivity = (MainActivity) getActivity();
                             String currentJourneyId = mainActivity.getCurrentJourneyId();
                             Log.d("ScanAc", "currentJourneyId = "+ currentJourneyId);
-                            Log.d("ScanAc", "Inputted ticket Id = "+ticketId + "with journId "+ ticket.getJourneyId());
+                            Log.d("ScanAc", "Inputted ticket Id = " + ticketId + "with journId "+ ticket.getJourneyId());
 
                             if(ticket.getJourneyId().equals(currentJourneyId)) { //check ticket valid for current journey
                                 loadTicketFragment(ticketId);

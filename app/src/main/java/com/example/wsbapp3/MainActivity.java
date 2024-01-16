@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        makeJackets();
-        currentJourneyId = "MBa1QzWDDB3hFxpDKZSn";
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -48,9 +46,11 @@ public class MainActivity extends AppCompatActivity {
             } else if (itemId == R.id.scan) {
                 replaceFragment(new ScanFragment());
             }
-
             return true;
         });
+
+        initialiseDatabase();
+
 
     }
 
@@ -63,15 +63,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
         private void initialiseDatabase(){ //populates the database, including one fully populated journey with matching tickets
+        currentJourneyId = "KelmpE01102024AM"; //journeyId = driver surname + driver initial + date + AM/PM
         makeJourneys();
         makeBusStops();
         makeChildren();
+        makeTickets();
+        makeJackets();
         makeJourneyBusStops();
         makeBusStopChildren();
-        makeTickets();
-        currentJourneyId = "MBa1QzWDDB3hFxpDKZSn";
     }
-
 
     private void makeJackets(){
         Log.d("jacket", "making jackets");
@@ -83,85 +83,84 @@ public class MainActivity extends AppCompatActivity {
     }
         private void makeJourneys() { //Creates top level collection of Journeys
             JourneyProvider provider = new JourneyProvider();
-            provider.addJourney(new Journey("Evan Kelmp", "123215634", "09:00 01/10/2024", true));
-            provider.addJourney(new Journey("Fearne Calloway", "7384294527", "09:00 02/10/2024", true));
-            provider.addJourney(new Journey("Timothy Goose", "8784338381", "15:00 03/10/2024", false));
-            provider.addJourney(new Journey("Misty Moore", "36354756522", "15:00 04/10/2024", false));
+            provider.addJourney(new Journey("KelmpE01102024AM","Evan Kelmp", "123215634", "09:00 01/10/2024", true));
+            provider.addJourney(new Journey("AppelbeesK102102024AM","Kristen Appelbees", "7384294527", "09:00 02/10/2024", true));
+            provider.addJourney(new Journey("GooseT03102024PM","Timothy Goose", "8784338381", "15:00 03/10/2024", false));
+            provider.addJourney(new Journey("MooreM04102024PM","Misty Moore", "36354756522", "15:00 04/10/2024", false));
         }
 
         private void makeBusStops() { //Creates top level collection of BusStops
             BusStopProvider provider = new BusStopProvider();
-            provider.addBusStop(new BusStop("Brentwood Police Station", "Brentwood Police Station, Wallesey Rd, SP2 6YU"));
-                provider.addBusStop(new BusStop("Central Station", "Central Station, Main St, AB1 2CD"));
-                provider.addBusStop(new BusStop("Green Park", "Green Park, Park Ave, XY3 4ZW"));
-                provider.addBusStop(new BusStop("Sunset Mall", "Sunset Mall, Sunset Blvd, CD5 6EF"));
-                provider.addBusStop(new BusStop("Tech Hub", "Tech Hub, Innovation St, EF6 7GH"));
-                provider.addBusStop(new BusStop("Riverfront Square", "Riverfront Square, Riverside Rd, GH8 9IJ"));
-                provider.addBusStop(new BusStop("Hilltop View", "Hilltop View, Summit Hill, IJ2 3KL"));
-                provider.addBusStop(new BusStop("Ocean Breeze", "Ocean Breeze, Coastal Ave, KL4 5MN"));
+            provider.addBusStop(new BusStop("BPS1", "Brentwood Police Station", "Brentwood Police Station, Wallesey Rd, SP2 6YU"));
+                provider.addBusStop(new BusStop("CS1","Central Station", "Central Station, Main St, AB1 2CD"));
+                provider.addBusStop(new BusStop("GP1", "Green Park", "Green Park, Park Ave, XY3 4ZW"));
+                provider.addBusStop(new BusStop("SM1","Sunset Mall", "Sunset Mall, Sunset Blvd, CD5 6EF"));
+                provider.addBusStop(new BusStop("TH1","Tech Hub", "Tech Hub, Innovation St, EF6 7GH"));
+                provider.addBusStop(new BusStop("RS1", "Riverfront Square", "Riverfront Square, Riverside Rd, GH8 9IJ"));
+                provider.addBusStop(new BusStop("HV1","Hilltop View", "Hilltop View, Summit Hill, IJ2 3KL"));
+                provider.addBusStop(new BusStop("OB1","Ocean Breeze", "Ocean Breeze, Coastal Ave, KL4 5MN"));
 
             }
         private void makeChildren() { //Creates top level collection of Children
             ChildProvider provider = new ChildProvider();
-            provider.addChild(new Child("Fearne", "Calloway", "Birdie Calloway (Mother)", "3578438311"));
-            provider.addChild(new Child("Liam", "Smith", "Emma Smith (Mother)", "1234567890"));
-            provider.addChild(new Child("Olivia", "Johnson", "Sophia Johnson (Mother)", "2345678901"));
-            provider.addChild(new Child("Noah", "Williams", "Ava Williams (Mother)", "3456789012"));
-            provider.addChild(new Child("Emma", "Jones", "Isabella Jones (Mother)", "4567890123"));
-            provider.addChild(new Child("Aiden", "Brown", "Olivia Brown (Mother)", "5678901234"));
-            provider.addChild(new Child("Sophia", "Davis", "Sophia Davis (Mother)", "6789012345"));
-            provider.addChild(new Child("Jackson", "Miller", "Amelia Miller (Mother)", "7890123456"));
-            provider.addChild(new Child("Olivia", "Garcia", "Sophia Garcia (Mother)", "8901234567"));
-            provider.addChild(new Child("Lucas", "Martinez", "Isabella Martinez (Mother)", "9012345678"));
-            provider.addChild(new Child("Ava", "Rodriguez", "Olivia Rodriguez (Mother)", "0123456789"));
-            provider.addChild(new Child("Emma", "Lopez", "Sophia Lopez (Mother)", "1122334455"));
-            provider.addChild(new Child("Logan", "Clark", "Emma Clark (Mother)", "2233445566"));
-            provider.addChild(new Child("Sophia", "Hall", "Ava Hall (Mother)", "3344556677"));
-            provider.addChild(new Child("Liam", "Fisher", "Sophia Fisher (Mother)", "4455667788"));
-            provider.addChild(new Child("Isabella", "Young", "Olivia Young (Mother)", "5566778899"));
+            provider.addChild(new Child("CallowayF3AS", "Fearne", "Calloway", "Birdie Calloway (Mother)", "3578438311", "3AS"));
+            provider.addChild(new Child("SmithL4GH","Liam", "Smith", "Emma Smith (Mother)", "1234567890", "4GH"));
+            provider.addChild(new Child("JohnsonO3AS","Olivia", "Johnson", "Sophia Johnson (Mother)", "2345678901","3AS"));
+            provider.addChild(new Child("WilliamsN6PW","Noah", "Williams", "Ava Williams (Mother)", "3456789012", "6PW"));
+            provider.addChild(new Child("JonesE5HW","Emma", "Jones", "Isabella Jones (Mother)", "4567890123","5HW"));
+            provider.addChild(new Child("BrownA5HW","Aiden", "Brown", "Olivia Brown (Mother)", "5678901234", "5HW"));
+            provider.addChild(new Child("DavisS5SM","Sophia", "Davis", "Sophia Davis (Mother)", "6789012345","5SM"));
+            provider.addChild(new Child("MillerJ2IB","Jackson", "Miller", "Amelia Miller (Mother)", "7890123456","2IB"));
+            provider.addChild(new Child("GarciaO2IB","Olivia", "Garcia", "Sophia Garcia (Mother)", "8901234567","2IB"));
+            provider.addChild(new Child("MartinezL1EF", "Lucas", "Martinez", "Isabella Martinez (Mother)", "9012345678", "1EF"));
+            provider.addChild(new Child("RodriguezA2EF", "Ava", "Rodriguez", "Olivia Rodriguez (Mother)", "0123456789", "2EF"));
+            provider.addChild(new Child("LopezE3GH", "Emma", "Lopez", "Sophia Lopez (Mother)", "1122334455", "3GH"));
+            provider.addChild(new Child("ClarkL4GH", "Logan", "Clark", "Emma Clark (Mother)", "2233445566", "4GH"));
+            provider.addChild(new Child("HallS5GH", "Sophia", "Hall", "Ava Hall (Mother)", "3344556677", "5GH"));
+            provider.addChild(new Child("FisherL1CD", "Liam", "Fisher", "Sophia Fisher (Mother)", "4455667788", "1CD"));
+            provider.addChild(new Child("YoungI2CD", "Isabella", "Young", "Olivia Young (Mother)", "5566778899", "2CD"));
            }
 
            private void makeJourneyBusStops(){ //Goes into a journey document within Journeys, and creates a subCollection of busStops
-        JourneyProvider provider = new JourneyProvider();
-            //public void createJourneyBusStopsSubcollection(String journeyId, Map<String, Long> busStopsWithTimes) {
+               JourneyProvider provider = new JourneyProvider();
+               //public void createJourneyBusStopsSubcollection(String journeyId, Map<String, Long> busStopsWithTimes) {
                Map<String, String> journeyMap = new HashMap<>(); //map of busStop Id (from BusStops colleciton) versus arrival time
-               journeyMap.put("Brentwood Police Station", "0750");
-               journeyMap.put("Tech Hub","0800");
-               journeyMap.put("Hilltop View","0807");
-               journeyMap.put("Central Station","0814");
-               journeyMap.put("Ocean Breeze","0829");
-               journeyMap.put("Riverfront Square","0840");
-               provider.createJourneyBusStops("MBa1QzWDDB3hFxpDKZSn",journeyMap);
+               journeyMap.put("BPS1", "0750");
+               journeyMap.put("TH1","0800");
+               journeyMap.put("HV1","0807");
+               journeyMap.put("CS1","0814");
+               journeyMap.put("OB1","0829");
+               journeyMap.put("RS1","0840");
+               provider.createJourneyBusStops(currentJourneyId,journeyMap);
         }
 
         private void makeBusStopChildren() {
-            BusStopProvider provider = new BusStopProvider();
+        BusStopProvider provider = new BusStopProvider();
         Map<String, String> busStopChildMap = new HashMap<>();
-        busStopChildMap.put("LiamSmith", "Brentwood Police Station");
-        busStopChildMap.put("JacksonMiller", "Brentwood Police Station");
-        busStopChildMap.put("SophiaDavis", "Riverfront Square");
-        busStopChildMap.put("IsabellaYoung", "Ocean Breeze");
-        busStopChildMap.put("OliviaJohnson", "Central Station");
-        busStopChildMap.put("AvaRodriguez", "Central Station");
-        busStopChildMap.put("NoahWilliams", "Central Station");
-        busStopChildMap.put("OliviaGarcia", "Tech Hub");
-        busStopChildMap.put("EmmaLopez", "Hilltop View");
-        provider.createBusStopChildren("MBa1QzWDDB3hFxpDKZSn",busStopChildMap);
+        busStopChildMap.put("JonesE5HW", "BPS1");
+        busStopChildMap.put("GarciaO2IB", "BPS1");
+        busStopChildMap.put("DavisS5SM", "RS1");
+        busStopChildMap.put("ClarkL4GH", "OB1");
+        busStopChildMap.put("JohnsonO3AS", "OB1");
+        busStopChildMap.put("FisherL1CD", "CS1");
+        busStopChildMap.put("RodriguezA2EF", "CS1");
+        busStopChildMap.put("YoungI2CD", "TH1");
+        busStopChildMap.put("LopezE3GH", "HV1");
+        provider.createBusStopChildren("KelmpE01102024AM",busStopChildMap);
         }
 
     private void makeTickets() {
         TicketProvider provider = new TicketProvider();
-        provider.addTicket(new Ticket(true,"LiamSmith", "Brentwood Police Station","MBa1QzWDDB3hFxpDKZSn"));
-        provider.addTicket(new Ticket(true,"JacksonMiller", "Brentwood Police Station","MBa1QzWDDB3hFxpDKZSn"));
-        provider.addTicket(new Ticket(true,"SophiaDavis", "Riverfront Square","MBa1QzWDDB3hFxpDKZSn"));
-        provider.addTicket(new Ticket(true,"IsabellaYoung", "Ocean Breeze","MBa1QzWDDB3hFxpDKZSn"));
-        provider.addTicket(new Ticket(true,"OliviaJohnson", "Central Station","MBa1QzWDDB3hFxpDKZSn"));
-        provider.addTicket(new Ticket(true,"AvaRodriguez", "Central Station","MBa1QzWDDB3hFxpDKZSn"));
-        provider.addTicket(new Ticket(true,"NoahWilliams", "Central Station","MBa1QzWDDB3hFxpDKZSn"));
-        provider.addTicket(new Ticket(true,"OliviaGarcia", "Tech Hub","MBa1QzWDDB3hFxpDKZSn"));
-        provider.addTicket(new Ticket(true,"EmmaLopez", "Hilltop View","MBa1QzWDDB3hFxpDKZSn"));
+        provider.addTicket(new Ticket("JonesE5HWKelmpE01102024AM",true,"JonesE5HW", "BPS1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("GarciaO2IBKelmpE01102024AM",true,"GarciaO2IB", "BPS1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("DavisS5SMKelmpE01102024AM",true,"DavisS5SM", "RS1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("ClarkL4GHKelmpE01102024AM",true,"ClarkL4GH", "OB1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("JohnsonO3ASKelmpE01102024AM",true,"JohnsonO3AS","OB1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("FisherL1CDKelmpE01102024AM",true,"FisherL1CD", "BPS1","KelmpE01102024AM")); //ticked Id = childId + journeyId
+        provider.addTicket(new Ticket("RodriguezA2EFKelmpE01102024AM",true,"RodriguezA2EF", "CS1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("YoungI2CDKelmpE01102024AM",true,"YoungI2CD", "TH1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("LopezE3GHKelmpE01102024AM",true,"LopezE3GH", "HV1","KelmpE01102024AM"));
     }
-
     }
 
 

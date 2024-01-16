@@ -10,14 +10,17 @@ public class Child {
     private String lastName;
 
     List<Contact> childContacts;
+    private String classCode;
 
     public Child(){}
-    public Child(String firstName, String lastName, String contactName, String contactDetail) {
+    public Child(String id, String firstName, String lastName, String contactName, String contactDetail, String classCode) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.childContacts = new ArrayList<>(); // Initialize the childContacts list
         Contact childContact = new Contact(contactName, contactDetail);
         this.childContacts.add(childContact);
+        this.classCode = classCode;
     }
 
     public String getId() {
@@ -50,4 +53,11 @@ public class Child {
         this.childContacts = childContacts;
     }
 
+    public String getClassCode() {
+        return classCode;
+    }
+
+    public void setClassCode(String classCode) {
+        this.classCode = classCode;
+    }
 }

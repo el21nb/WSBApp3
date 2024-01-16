@@ -6,6 +6,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +41,7 @@ public class BusStopProvider {
                     Log.d("CBSC", "main fun tried to fetch child" );
 
                     if (child != null) {
-                        DocumentReference busStopChildRef = busStopChildrenRef.document(child.getFirstName()+child.getLastName());
+                        DocumentReference busStopChildRef = busStopChildrenRef.document(child.getId());
 
                         Log.d("CBSC", "main fun fetched Child");
 
@@ -75,28 +78,30 @@ public class BusStopProvider {
         }
     }
 
-    public void fetchBusStopById(String busStopId, FetchBusStopCallback callback) { //fetch a bus stop from the BusStopsCollection by its id
-            DocumentReference busStopDocumentRef = busStopCollection.document(busStopId);
+    public void fetchBusStopById(String busStopId, FetchBusStopCallback callback) {
+        // Query the BusStopsCollection to find the document with the specified busStopId
+        Query query = busStopCollection.whereEqualTo("id", busStopId);
 
-            busStopDocumentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            BusStop busStop = document.toObject(BusStop.class);
-                            callback.onBusStopFetched(busStop);
-                        } else {
-                            callback.onBusStopNotFound();
-                        }
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        // Assuming there's only one document with the specified busStopId
+                        DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                        BusStop busStop = document.toObject(BusStop.class);
+                        callback.onBusStopFetched(busStop);
                     } else {
-                        Exception exception = task.getException();
-                        callback.onFetchFailed(exception.getMessage());
+                        callback.onBusStopNotFound();
                     }
+                } else {
+                    Exception exception = task.getException();
+                    callback.onFetchFailed(exception.getMessage());
                 }
-            });
-
-        }
+            }
+        });
+    }
 
         public interface FetchBusStopCallback {
             void onBusStopFetched(BusStop busStop);
@@ -107,7 +112,7 @@ public class BusStopProvider {
 
         public void addBusStop(BusStop busStop) {
             // Set the document ID to the busStop name
-            DocumentReference busStopRef = busStopCollection.document(busStop.getName());
+            DocumentReference busStopRef = busStopCollection.document(busStop.getId());
 
             // Add the BusStop object to the specified document reference
             busStopRef.set(busStop)
