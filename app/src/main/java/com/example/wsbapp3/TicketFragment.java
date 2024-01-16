@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class TicketFragment extends Fragment {
@@ -24,6 +25,8 @@ public class TicketFragment extends Fragment {
     private Journey journey;
 
     TextView testText;
+    Button jacketButton;
+
     public TicketFragment() {
         // Required empty public constructor
     }
@@ -102,9 +105,32 @@ public class TicketFragment extends Fragment {
             // Pass the callback to setObjects
             setObjects(setObjectsCallback);
         }
+
+        jacketButton = v.findViewById(R.id.jacketButton);
+        jacketButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle button click here
+                onAssignJacketButtonClick();
+            }
+        });
+
+
+
+
+
         return v;
     }
+    private void onAssignJacketButtonClick() {
+        // Create a new AssignJacketFragment and pass in the ticketId
+        AssignJacketFragment assignJacketFragment = AssignJacketFragment.newInstance(ticketId);
 
+        // Use FragmentManager to replace the current fragment with AssignJacketFragment
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameLayout, assignJacketFragment)
+                .addToBackStack(null)  // Add to back stack so the user can navigate back
+                .commit();
+    }
     public interface SetObjectsCallback { //callback ensures that all asynchronous operations in setObjects are complete
         void onSetObjectsComplete();
     }
@@ -178,84 +204,4 @@ public class TicketFragment extends Fragment {
             }
         });
     }
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        View v  = inflater.inflate(R.layout.fragment_ticket, container, false);
-//        String testString = "";
-//
-//        if (getArguments() != null) {
-//            setObjects();
-//            testString = "Child: " + child.getFirstName() + " " + child.getLastName()
-//                    + "\nJourney: " + journey.getId() + " " + journey.getJourneyDateTime();
-//        }
-//
-//        TextView testText = v.findViewById(R.id.testText);  // Correct method name
-//        testText.setText(testString);
-//        return v;
-//    }
-//
-//
-//    public void setObjects(){ //first fetch ticket object, and set member Ticket, then use ticket info to fetch child and journey objects
-//        ticketId = getArguments().getString(TICKET_ID);
-//        TicketProvider tProvider = new TicketProvider();
-//        ChildProvider cProvider = new ChildProvider();
-//        JourneyProvider jProvider = new JourneyProvider();
-//        tProvider.fetchTicketById(ticketId, new TicketProvider.FetchTicketCallback() {
-//            @Override
-//            public void onTicketFetched(Ticket ticket) {
-//                setTicket(ticket); //set fragment member variable ticket to the ticket object from firestore
-//
-//                //now fetch and set child object
-//                String childId = ticket.getChildId();
-//                cProvider.fetchChildById(childId, new ChildProvider.FetchChildCallback() {
-//                    @Override
-//                    public void onChildFetched(Child child) {
-//                        // Do something with the fetched child
-//                        setChild(child);
-//                        Log.d("TicketFragment", "Child fetched: " + child.toString());
-//                    }
-//
-//                    @Override
-//                    public void onChildNotFound() {
-//                        // Handle case where child is not found
-//                        Log.d("TicketFragment", "Child not found");
-//                    }
-//
-//                    @Override
-//                    public void onFetchFailed(String errorMessage) {
-//                        // Handle fetch failure
-//                        Log.e("TicketFragment", "Fetch failed: " + errorMessage);
-//                    }
-//                });
-//
-//                //now fetch and set journey object
-//                String journeyId = ticket.getJourneyId();
-//                jProvider.fetchJourneyById(journeyId, new JourneyProvider.FetchJourneyCallback() {
-//                    @Override
-//                    public void onJourneyFetched(Journey journey) {
-//                        setJourney(journey); //set fragment member variable ticket to the ticket object from firestore
-//                    }
-//                    @Override
-//                    public void onJourneyNotFound() {
-//                        // Handle case where child is not found
-//                        Log.d("TicketFragment", "Child not found");
-//                    }
-//                    @Override
-//                    public void onFetchFailed(String errorMessage) {
-//                        // Handle fetch failure
-//                        Log.e("TicketFragment", "Fetch failed: " + errorMessage);
-//                    }
-//                });
-//
-//            }
-//            @Override
-//            public void onTicketNotFound() {
-//            }
-//            @Override
-//            public void onFetchFailed(String errorMessage) {
-//            }
-//        });
-//        }
 }

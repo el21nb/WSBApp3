@@ -3,10 +3,22 @@ package com.example.wsbapp3;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,15 +26,16 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class AssignJacketFragment extends Fragment {
+    private EditText editText;
+    private FirebaseFirestore db;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String TICKET_ID = "jacketId";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
 
     public AssignJacketFragment() {
         // Required empty public constructor
@@ -32,16 +45,14 @@ public class AssignJacketFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param jacketId Parameter 1.
      * @return A new instance of fragment AssignJacketFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AssignJacketFragment newInstance(String param1, String param2) {
+    public static AssignJacketFragment newInstance(String jacketId) {
         AssignJacketFragment fragment = new AssignJacketFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(TICKET_ID, jacketId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,15 +61,81 @@ public class AssignJacketFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam1 = getArguments().getString(TICKET_ID);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_assign_jacket, container, false);
+        View view = inflater.inflate(R.layout.fragment_assign_jacket, container, false);
+        Button findJacketButton = view.findViewById(R.id.findJacketButton);
+        db = FirebaseFirestore.getInstance();
+        findJacketButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleFindJacketButtonClick();
+            }
+        });
+
+        return view;
+    }
+
+
+    private void handleFindJacketButtonClick() {
+        PopupTextInput popup = new PopupTextInput();
+        String jacketId;
+        // Show the popup and provide a callback for when the input is received
+        popup.showPopupTextInput(requireContext(), "Enter Jacket Id", new PopupTextInput.InputCallback() {
+            @Override
+            public void onInput(String jacketId) {
+                if (jacketId != null) {
+                    // Input received, now fetch the jacket
+                    JacketProvider provider = new JacketProvider();
+                    provider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
+                        @Override
+                        public void onJacketFetched(Jacket jacket) {
+                            MainActivity mainActivity = (MainActivity) getActivity();
+                            String currentJourneyId = mainActivity.getCurrentJourneyId();
+
+                            if(jacket.getJourneyId().equals(currentJourneyId)) { //check jacket valid for current journey
+                                loadJacketFragment(jacketId);
+                            } else {
+                                Toast.makeText(requireContext(), "Jacket invalid for this journey", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override
+                        public void onJacketNotFound() {
+                            Toast.makeText(requireContext(), "Jacket not found", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFetchFailed(String errorMessage) {
+                            Toast.makeText(requireContext(), "Jacket fetch failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // Handle the case where the user didn't provide a valid jacketId
+                    Toast.makeText(requireContext(), "Invalid Jacket Id", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    private void loadScanAgainFragment(String jacketId) { //opens jacket display fragment, passing in a valid jacket id
+        // Create an instance of JacketFragment and pass the jacket object as an argument
+        JacketFragment jacketFragment = JacketFragment.newInstance(jacketId);
+
+        // Get the FragmentManager and start a fragment transaction
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Replace the current fragment with the JacketFragment
+        fragmentTransaction.replace(R.id.frameLayout, jacketFragment);
+
+        // Add the transaction to the back stack (optional)
+        fragmentTransaction.addToBackStack(null);
+
+        // Commit the transaction
+        fragmentTransaction.commit();
     }
 }

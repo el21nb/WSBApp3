@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        makeJackets();
         currentJourneyId = "MBa1QzWDDB3hFxpDKZSn";
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -71,6 +72,15 @@ public class MainActivity extends AppCompatActivity {
         currentJourneyId = "MBa1QzWDDB3hFxpDKZSn";
     }
 
+
+    private void makeJackets(){
+        Log.d("jacket", "making jackets");
+        JacketProvider provider = new JacketProvider();
+        for(int i =0; i<15; i++){
+            Jacket jacket = new Jacket(String.format("JA%02d",i+1));
+            provider.addJacket(jacket);
+        }
+    }
         private void makeJourneys() { //Creates top level collection of Journeys
             JourneyProvider provider = new JourneyProvider();
             provider.addJourney(new Journey("Evan Kelmp", "123215634", "09:00 01/10/2024", true));
@@ -112,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
            }
 
            private void makeJourneyBusStops(){ //Goes into a journey document within Journeys, and creates a subCollection of busStops
-            JourneyProvider provider = new JourneyProvider();
+        JourneyProvider provider = new JourneyProvider();
             //public void createJourneyBusStopsSubcollection(String journeyId, Map<String, Long> busStopsWithTimes) {
                Map<String, String> journeyMap = new HashMap<>(); //map of busStop Id (from BusStops colleciton) versus arrival time
                journeyMap.put("Brentwood Police Station", "0750");

@@ -18,6 +18,13 @@ public class JourneyProvider {
 
     public JourneyProvider() {
     }
+
+    public void assignJacket(String ticketId, String jacketId){
+
+
+    };
+
+
     public void addOnboardChild(String journeyId, Child child) { //add a Journey object to the top level Journeys collection
         CollectionReference onboardChildren = journeysCollection.document(journeyId).collection("OnboardChildren");
         onboardChildren.add(child)
