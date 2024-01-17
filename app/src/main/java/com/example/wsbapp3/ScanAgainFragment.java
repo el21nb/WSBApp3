@@ -155,7 +155,7 @@ public class ScanAgainFragment extends Fragment {
         // Use FragmentManager to replace the current fragment with AssignJacketFragment
         requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayout, passengersFragment)
-                .addToBackStack(null)  // Add to back stack so the user can navigate back
+                //.addToBackStack(null)  // Add to back stack so the user can navigate back
                 .commit();
     }
 
@@ -166,7 +166,7 @@ public class ScanAgainFragment extends Fragment {
         // Use FragmentManager to replace the current fragment with ScanFragment
         requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayout, scanFragment)
-                .addToBackStack(null)  // Add to back stack so the user can navigate back
+                //.addToBackStack(null)  // Add to back stack so the user can navigate back
                 .commit();
     }
 }

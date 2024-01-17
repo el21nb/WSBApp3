@@ -24,6 +24,10 @@ public class JourneyProvider {
 
 
     };
+
+
+
+
     public void removePassenger(String journeyId, Child child) { //add a Journey object to the top level Journeys collection
         CollectionReference onboardChildren = journeysCollection.document(journeyId).collection("Passengers");
         onboardChildren.add(child)

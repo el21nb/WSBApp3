@@ -132,7 +132,7 @@ public class TicketFragment extends Fragment {
         // Use FragmentManager to replace the current fragment with AssignJacketFragment
         requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayout, assignJacketFragment)
-                .addToBackStack(null)  // Add to back stack so the user can navigate back
+                //.addToBackStack(null)  // Add to back stack so the user can navigate back
                 .commit();
     }
     public interface SetObjectsCallback { //callback ensures that all asynchronous operations in setObjects are complete

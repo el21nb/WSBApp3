@@ -129,7 +129,7 @@ public class AssignJacketFragment extends Fragment {
         fragmentTransaction.replace(R.id.frameLayout, scanAgainFragment);
 
         // Add the transaction to the back stack (optional)
-        fragmentTransaction.addToBackStack(null);
+        //fragmentTransaction.addToBackStack(null);
 
         // Commit the transaction
         fragmentTransaction.commit();

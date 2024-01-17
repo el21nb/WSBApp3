@@ -142,7 +142,7 @@ public class ScanFragment extends Fragment {
         // Replace the current fragment with the TicketFragment
         fragmentTransaction.replace(R.id.frameLayout, ticketFragment);
 
-        // Add the transaction to the back stack (optional)
+        // Add the transaction to the back stack
         fragmentTransaction.addToBackStack(null);
 
         // Commit the transaction
