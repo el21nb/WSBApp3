@@ -18,17 +18,14 @@ public class ChildProvider {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference childCollection = db.collection("Children");
     public void fetchChildById(String childId, ChildProvider.FetchChildCallback callback) {
-        // Query the Child collection to find the document with the specified childId
-        Query query = childCollection.whereEqualTo("id", childId);
+        DocumentReference childDocumentRef = childCollection.document(childId);
 
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        childDocumentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(Task<QuerySnapshot> task) {
+            public void onComplete(Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    QuerySnapshot querySnapshot = task.getResult();
-                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                        // Assuming there's only one document with the specified childId
-                        DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
                         Child child = document.toObject(Child.class);
                         Log.d("CBSC", "Fetched child: " + child.getFirstName());
 

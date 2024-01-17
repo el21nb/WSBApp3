@@ -19,25 +19,14 @@ public class JacketProvider {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference jacketCollection = db.collection("Jackets");
     public void fetchJacketById(String jacketId, JacketProvider.FetchJacketCallback callback) {
-        Log.d("CBSC", "fetchJacketById: " + jacketId); // Log the jacketId for debugging
+        DocumentReference jacketDocumentRef = jacketCollection.document(jacketId);
 
-        if (TextUtils.isEmpty(jacketId)) {
-            Log.d("CBSC", "Invalid jacketId: " + jacketId);
-            callback.onJacketNotFound();
-            return;
-        }
-
-        // Query the Jacket collection to find the document with the specified jacketId
-        Query query = jacketCollection.whereEqualTo("id", jacketId);
-
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        jacketDocumentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(Task<QuerySnapshot> task) {
+            public void onComplete(Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    QuerySnapshot querySnapshot = task.getResult();
-                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                        // Assuming there's only one document with the specified jacketId
-                        DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
                         Jacket jacket = document.toObject(Jacket.class);
                         Log.d("CBSC", "Fetched jacket: " + jacketId);
                         callback.onJacketFetched(jacket);

@@ -96,7 +96,11 @@ public class TicketFragment extends Fragment {
                 //add child to onboard collection in journey
                 JourneyProvider provider = new JourneyProvider();
                 String journeyId = ticket.getJourneyId();
-                provider.addOnboardChild(journeyId,child);
+
+                if(ticket.getOutwardJourney()) {
+                    provider.addPassenger(journeyId, child); //if outward journey, add child to Passengers
+                    //otherwise, wait until jacket deassigned (confirm child identitity) to offboard passenger
+                }
             }
 
         };

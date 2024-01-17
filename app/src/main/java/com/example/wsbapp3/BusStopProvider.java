@@ -79,17 +79,14 @@ public class BusStopProvider {
     }
 
     public void fetchBusStopById(String busStopId, FetchBusStopCallback callback) {
-        // Query the BusStopsCollection to find the document with the specified busStopId
-        Query query = busStopCollection.whereEqualTo("id", busStopId);
+        DocumentReference busStopDocumentRef = busStopCollection.document(busStopId);
 
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        busStopDocumentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(Task<QuerySnapshot> task) {
+            public void onComplete(Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    QuerySnapshot querySnapshot = task.getResult();
-                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                        // Assuming there's only one document with the specified busStopId
-                        DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
                         BusStop busStop = document.toObject(BusStop.class);
                         callback.onBusStopFetched(busStop);
                     } else {
@@ -103,7 +100,8 @@ public class BusStopProvider {
         });
     }
 
-        public interface FetchBusStopCallback {
+
+    public interface FetchBusStopCallback {
             void onBusStopFetched(BusStop busStop);
             void onBusStopNotFound();
             void onFetchFailed(String errorMessage);

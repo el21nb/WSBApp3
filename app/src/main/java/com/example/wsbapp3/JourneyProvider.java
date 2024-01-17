@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.type.DateTime;
 
@@ -23,19 +24,45 @@ public class JourneyProvider {
 
 
     };
-
-
-    public void addOnboardChild(String journeyId, Child child) { //add a Journey object to the top level Journeys collection
-        CollectionReference onboardChildren = journeysCollection.document(journeyId).collection("OnboardChildren");
+    public void removePassenger(String journeyId, Child child) { //add a Journey object to the top level Journeys collection
+        CollectionReference onboardChildren = journeysCollection.document(journeyId).collection("Passengers");
         onboardChildren.add(child)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(Task<DocumentReference> task) {
                         if (task.isSuccessful()) {
                             DocumentReference childDocument = task.getResult();
-                            Log.d("addOnboardChild", "Child document added with ID: " + childDocument.getId());
+                            Log.d("addedPassenger", "Child document added with ID: " + childDocument.getId());
                         } else {
-                            Log.e("addOnboardChild", "Error adding child document: " + task.getException().getMessage());
+                            Log.e("addedPassenger", "Error adding child document: " + task.getException().getMessage());
+                            // Handle the exception as needed
+                        }
+                    }
+                });
+    }
+    public void addPassenger(String journeyId, Child child) {
+        // Create a map with fields: Child, Jacket, OnboardTime
+        Map<String, Object> passengerData = new HashMap<>();
+        passengerData.put("Child", child);
+        // Set the OnboardTime to the current timestamp
+        passengerData.put("OnboardTime", FieldValue.serverTimestamp());
+
+        passengerData.put("Jacket", null);
+        passengerData.put("OffboardTime", null);
+        // Set the document id to the child id
+        String childId = child.getId();
+        // Add the map to the "Passengers" collection
+        CollectionReference onboardChildren = journeysCollection.document(journeyId).collection("Passengers");
+        DocumentReference passengerDocumentRef = onboardChildren.document(childId);
+
+        passengerDocumentRef.set(passengerData)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("addedPassenger", "Passenger document added with ID: " + childId);
+                        } else {
+                            Log.e("addedPassenger", "Error adding passenger document: " + task.getException().getMessage());
                             // Handle the exception as needed
                         }
                     }

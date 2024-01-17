@@ -32,7 +32,7 @@ public class AssignJacketFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String TICKET_ID = "jacketId";
+    private static final String TICKET_ID = "ticketId";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -83,62 +83,55 @@ public class AssignJacketFragment extends Fragment {
     }
 
 
-    private void handleFindJacketButtonClick() {
-//        PopupTextInput popup = new PopupTextInput();
-//        String jacketId;
-//        // Show the popup and provide a callback for when the input is received
-//        popup.showPopupTextInput(requireContext(), "Enter Jacket Id", new PopupTextInput.InputCallback() {
-//            @Override
-//            public void onInput(String jacketId) {
-//                if (jacketId != null) {
-//                    // Input received, now fetch the jacket
-//                    JacketProvider provider = new JacketProvider();
-//                    provider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
-//                        @Override
-//                        public void onJacketFetched(Jacket jacket) {
-//                            MainActivity mainActivity = (MainActivity) getActivity();
-//                            String currentJourneyId = mainActivity.getCurrentJourneyId();
-//
-//                            if(jacket.getJourneyId().equals(currentJourneyId)) { //check jacket valid for current journey
-//                                loadJacketFragment(jacketId);
-//                            } else {
-//                                Toast.makeText(requireContext(), "Jacket invalid for this journey", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                        @Override
-//                        public void onJacketNotFound() {
-//                            Toast.makeText(requireContext(), "Jacket not found", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                        @Override
-//                        public void onFetchFailed(String errorMessage) {
-//                            Toast.makeText(requireContext(), "Jacket fetch failed: " + errorMessage, Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                } else {
-//                    // Handle the case where the user didn't provide a valid jacketId
-//                    Toast.makeText(requireContext(), "Invalid Jacket Id", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+ private void handleFindJacketButtonClick() {
+        PopupTextInput popup = new PopupTextInput();
+        String jacketId;
+        // Show the popup and provide a callback for when the input is received
+        popup.showPopupTextInput(requireContext(), "Enter Jacket Id", new PopupTextInput.InputCallback() {
+            @Override
+            public void onInput(String jacketId) {
+                if (jacketId != null) {
+                    // Input received, now fetch the jacket
+                    JacketProvider provider = new JacketProvider();
+                    provider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
+                        @Override
+                        public void onJacketFetched(Jacket jacket) {
+                            String ticketId = getArguments().getString(TICKET_ID);
+                            loadScanAgainFragment(jacketId,  ticketId);
+                        }
+                        @Override
+                        public void onJacketNotFound() {
+                            Toast.makeText(requireContext(), "Jacket not found", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFetchFailed(String errorMessage) {
+                            Toast.makeText(requireContext(), "Jacket fetch failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // Handle the case where the user didn't provide a valid jacketId
+                    Toast.makeText(requireContext(), "Invalid Jacket Id", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-    private void loadScanAgainFragment(String jacketId) { //opens jacket display fragment, passing in a valid jacket id
-//        // Create an instance of JacketFragment and pass the jacket object as an argument
-//        JacketFragment jacketFragment = JacketFragment.newInstance(jacketId);
-//
-//        // Get the FragmentManager and start a fragment transaction
-//        FragmentManager fragmentManager = getParentFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//        // Replace the current fragment with the JacketFragment
-//        fragmentTransaction.replace(R.id.frameLayout, jacketFragment);
-//
-//        // Add the transaction to the back stack (optional)
-//        fragmentTransaction.addToBackStack(null);
-//
-//        // Commit the transaction
-//        fragmentTransaction.commit();
-//    }
+    private void loadScanAgainFragment(String jacketId, String ticketId) {
+        // Create an instance of JacketFragment and pass the jacket object as an argument
+        ScanAgainFragment scanAgainFragment = ScanAgainFragment.newInstance(jacketId,ticketId);
+
+        // Get the FragmentManager and start a fragment transaction
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Replace the current fragment with the JacketFragment
+        fragmentTransaction.replace(R.id.frameLayout, scanAgainFragment);
+
+        // Add the transaction to the back stack (optional)
+        fragmentTransaction.addToBackStack(null);
+
+        // Commit the transaction
+        fragmentTransaction.commit();
     }
 }
