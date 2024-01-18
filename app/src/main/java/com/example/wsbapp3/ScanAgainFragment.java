@@ -104,23 +104,25 @@ public class ScanAgainFragment extends Fragment {
                     public void onTicketFetched(Ticket ticket) {
                         String journeyId = ticket.getJourneyId();
                         String childId = ticket.getChildId();
-                        DocumentReference passengerRef = db.getInstance()
-                                .collection("Journeys")
-                                .document(journeyId)
-                                .collection("Passengers")
-                                .document(childId);
-                        passengerRef.update("Jacket", jacketId);
-                        Log.d("addJacket", "assigned " + jacketId + " to " + childId);
-
-
-
+                        if(ticket.isPickUp()) { //if pick up, assign jacket to passenger
+                            jProvider.assignJacket(journeyId, childId, jacketId);
+                        }
+                        else{
+                            jProvider.deassignJacket(journeyId, childId, jacketId);
+                        }
                         cProvider.fetchChildById(childId, new ChildProvider.FetchChildCallback() {
                             @Override
                             public void onChildFetched(Child child) {
-                                String testString = "Jacket " + jacketId + " assigned to\n" + child.getFirstName() + " " + child.getLastName();
+                                String testString;
+                                if( ticket.isPickUp() ){
+                                    testString = "Jacket " + jacketId + " assigned to\n" + child.getFirstName() + " " + child.getLastName();
+                                    testText.setText(testString);
+                                }
+                                else{
+                                        testString = "Jacket " + jacketId + " de-assigned from\n" + child.getFirstName() + " " + child.getLastName();
                                 testText.setText(testString);
+                                }
                             }
-
                             @Override
                             public void onChildNotFound() {
                                 // Handle case where child is not found

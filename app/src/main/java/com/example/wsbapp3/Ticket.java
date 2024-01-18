@@ -3,7 +3,8 @@ package com.example.wsbapp3;
 import java.io.Serializable;
 
 public class Ticket {
-    private boolean OutwardJourney; //1 for to school, - for from school
+    private boolean schoolTicket; //1 for school ticket, 0 for stop ticket
+    private boolean pickUp; //1 for pick up, 0 for drop off
     private String ticketId;
     private String childId;
     private String busStopId;
@@ -12,12 +13,21 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(String ticketId, boolean outwardJourney, String childId, String busStopId, String journeyId) {
+    public Ticket(String ticketId, boolean schoolTicket, boolean pickUp, String childId, String busStopId, String journeyId) {
         this.ticketId = ticketId;
-        this.OutwardJourney = outwardJourney;
+        this.schoolTicket = schoolTicket;
+        this.pickUp = pickUp;
         this.childId = childId;
         this.busStopId = busStopId;
         this.journeyId = journeyId;
+    }
+
+    public boolean isPickUp() {
+        return pickUp;
+    }
+
+    public void setPickUp(boolean pickUp) {
+        this.pickUp = pickUp;
     }
 
     public String getTicketId() {
@@ -28,12 +38,12 @@ public class Ticket {
         this.ticketId = ticketId;
     }
 
-    public boolean getOutwardJourney() {
-        return this.OutwardJourney;
+    public boolean isSchoolTicket() {
+        return this.schoolTicket;
     }
 
-    public void setOutwardJourney(boolean outwardJourney) {
-        this.OutwardJourney = outwardJourney;
+    public void setSchoolTicket(boolean schoolTicket) {
+        this.schoolTicket = schoolTicket;
     }
 
     public String getChildId() {

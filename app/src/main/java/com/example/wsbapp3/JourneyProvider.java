@@ -1,5 +1,10 @@
 package com.example.wsbapp3;
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,34 +30,81 @@ public class JourneyProvider {
 
     };
 
+   public void deassignJacket(String journeyId, String childId, String jacketId){
+        DocumentReference passengerDocumentRef = journeysCollection.document(journeyId)
+                .collection("Passengers")
+                .document(childId);
 
-
-
-    public void removePassenger(String journeyId, Child child) { //add a Journey object to the top level Journeys collection
-        CollectionReference onboardChildren = journeysCollection.document(journeyId).collection("Passengers");
-        onboardChildren.add(child)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        Map<String, Object> jacketUpdates = new HashMap<>();
+        jacketUpdates.put("JacketDeassignTime", FieldValue.serverTimestamp());
+        passengerDocumentRef.update(jacketUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(Task<DocumentReference> task) {
+                    public void onComplete(Task<Void> task) {
                         if (task.isSuccessful()) {
-                            DocumentReference childDocument = task.getResult();
-                            Log.d("addedPassenger", "Child document added with ID: " + childDocument.getId());
+                            Log.d("dropOffPassenger", "Drop-off time updated for passenger: " + childId);
                         } else {
-                            Log.e("addedPassenger", "Error adding child document: " + task.getException().getMessage());
+                            Log.e("dropOffPassenger", "Error updating drop-off time: " + task.getException().getMessage());
                             // Handle the exception as needed
                         }
                     }
                 });
     }
-    public void addPassenger(String journeyId, Child child) {
+
+    public void dropOffPassenger(String journeyId, String childId) {
+        // Reference to the passenger document
+        DocumentReference passengerDocumentRef = journeysCollection.document(journeyId)
+                .collection("Passengers")
+                .document(childId);
+
+        // Update the dropOffTime field with the current timestamp
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("dropOffTime", FieldValue.serverTimestamp());
+        passengerDocumentRef.update(updates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("dropOffPassenger", "Drop-off time updated for passenger: " + childId);
+                        } else {
+                            Log.e("dropOffPassenger", "Error updating drop-off time: " + task.getException().getMessage());
+                            // Handle the exception as needed
+                        }
+                    }
+                });
+    }
+    public void assignJacket(String journeyId, String childId, String jacketId){
+        DocumentReference passengerDocumentRef = journeysCollection.document(journeyId)
+                .collection("Passengers")
+                .document(childId);
+
+        Map<String, Object> jacketUpdates = new HashMap<>();
+        jacketUpdates.put("JacketAssignTime", FieldValue.serverTimestamp());
+        jacketUpdates.put("Jacket",jacketId);
+        passengerDocumentRef.update(jacketUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("dropOffPassenger", "Drop-off time updated for passenger: " + childId);
+                        } else {
+                            Log.e("dropOffPassenger", "Error updating drop-off time: " + task.getException().getMessage());
+                            // Handle the exception as needed
+                        }
+                    }
+                });
+
+    }
+    public void pickUpPassenger(String journeyId, Child child) {
         // Create a map with fields: Child, Jacket, OnboardTime
         Map<String, Object> passengerData = new HashMap<>();
         passengerData.put("Child", child);
         // Set the OnboardTime to the current timestamp
-        passengerData.put("OnboardTime", FieldValue.serverTimestamp());
-
+        passengerData.put("pickUpTime", FieldValue.serverTimestamp());
+        passengerData.put("dropOffTime", null);
         passengerData.put("Jacket", null);
-        passengerData.put("OffboardTime", null);
+        passengerData.put("JacketDeassignTime", null);
+        passengerData.put("JacketAssignTime", null);
         // Set the document id to the child id
         String childId = child.getId();
         // Add the map to the "Passengers" collection

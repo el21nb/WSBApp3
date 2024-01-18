@@ -38,6 +38,8 @@ public class DatabaseProvider {
         provider.addJourney(new Journey("AppelbeesK102102024AM","Kristen Appelbees", "7384294527", "09:00 02/10/2024", true));
         provider.addJourney(new Journey("GooseT03102024PM","Timothy Goose", "8784338381", "15:00 03/10/2024", false));
         provider.addJourney(new Journey("MooreM04102024PM","Misty Moore", "36354756522", "15:00 04/10/2024", false));
+        provider.addJourney(new Journey("KelmpE01102024PM","Evan Kelmp", "123215634", "15:00 01/10/2024", false));
+
     }
 
     public void makeBusStops() { //Creates top level collection of BusStops
@@ -50,6 +52,7 @@ public class DatabaseProvider {
         provider.addBusStop(new BusStop("RS1", "Riverfront Square", "Riverfront Square, Riverside Rd, GH8 9IJ"));
         provider.addBusStop(new BusStop("HV1","Hilltop View", "Hilltop View, Summit Hill, IJ2 3KL"));
         provider.addBusStop(new BusStop("OB1","Ocean Breeze", "Ocean Breeze, Coastal Ave, KL4 5MN"));
+        provider.addBusStop(new BusStop("SCH","Primary School", "Primary School, Some Road, KL4 5OP"));
 
     }
     public void makeChildren() { //Creates top level collection of Children
@@ -82,6 +85,7 @@ public class DatabaseProvider {
         journeyMap.put("CS1","0814");
         journeyMap.put("OB1","0829");
         journeyMap.put("RS1","0840");
+        journeyMap.put("SCH", "0900");
         provider.createJourneyBusStops(currentJourneyId,journeyMap);
     }
 
@@ -102,14 +106,46 @@ public class DatabaseProvider {
 
     public void makeTickets() {
         TicketProvider provider = new TicketProvider();
-        provider.addTicket(new Ticket("JonesE5HWKelmpE01102024AM",true,"JonesE5HW", "BPS1","KelmpE01102024AM"));
-        provider.addTicket(new Ticket("GarciaO2IBKelmpE01102024AM",true,"GarciaO2IB", "BPS1","KelmpE01102024AM"));
-        provider.addTicket(new Ticket("DavisS5SMKelmpE01102024AM",true,"DavisS5SM", "RS1","KelmpE01102024AM"));
-        provider.addTicket(new Ticket("ClarkL4GHKelmpE01102024AM",true,"ClarkL4GH", "OB1","KelmpE01102024AM"));
-        provider.addTicket(new Ticket("JohnsonO3ASKelmpE01102024AM",true,"JohnsonO3AS","OB1","KelmpE01102024AM"));
-        provider.addTicket(new Ticket("FisherL1CDKelmpE01102024AM",true,"FisherL1CD", "BPS1","KelmpE01102024AM")); //ticked Id = childId + journeyId
-        provider.addTicket(new Ticket("RodriguezA2EFKelmpE01102024AM",true,"RodriguezA2EF", "CS1","KelmpE01102024AM"));
-        provider.addTicket(new Ticket("YoungI2CDKelmpE01102024AM",true,"YoungI2CD", "TH1","KelmpE01102024AM"));
-        provider.addTicket(new Ticket("LopezE3GHKelmpE01102024AM",true,"LopezE3GH", "HV1","KelmpE01102024AM"));
-    }
+        //morning pick ups:
+                provider.addTicket(new Ticket("JonesE5HWKelmpE01102024AMPU",false,true,"JonesE5HW", "BPS1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("GarciaO2IBKelmpE01102024AMPU",false,true,"GarciaO2IB", "BPS1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("DavisS5SMKelmpE01102024AMPU",false,true,"DavisS5SM", "RS1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("ClarkL4GHKelmpE01102024AMPU",false,true,"ClarkL4GH", "OB1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("JohnsonO3ASKelmpE01102024AMPU",false,true,"JohnsonO3AS","OB1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("FisherL1CDKelmpE01102024AMPU",false,true,"FisherL1CD", "BPS1","KelmpE01102024AM")); //ticked Id = childId + journeyId
+        provider.addTicket(new Ticket("RodriguezA2EFKelmpE01102024AMPU",false,true,"RodriguezA2EF", "CS1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("YoungI2CDKelmpE01102024AMPU",false,true,"YoungI2CD", "TH1","KelmpE01102024AM"));
+        provider.addTicket(new Ticket("LopezE3GHKelmpE01102024AMPU",false,true,"LopezE3GH", "HV1","KelmpE01102024AM"));
+            //morning drop off
+            provider.addTicket(new Ticket("GarciaO2IBKelmpE01102024AMDO", true, false, "GarciaO2IB", "SCH", "KelmpE01102024AM"));
+            provider.addTicket(new Ticket("DavisS5SMKelmpE01102024AMDO", true, false, "DavisS5SM", "SCH", "KelmpE01102024AM"));
+            provider.addTicket(new Ticket("ClarkL4GHKelmpE01102024AMDO", true, false, "ClarkL4GH", "SCH", "KelmpE01102024AM"));
+            provider.addTicket(new Ticket("JohnsonO3ASKelmpE01102024AMDO", true, false, "JohnsonO3AS", "SCH", "KelmpE01102024AM"));
+            provider.addTicket(new Ticket("FisherL1CDKelmpE01102024AMDO", true, false, "FisherL1CD", "SCH", "KelmpE01102024AM"));
+            provider.addTicket(new Ticket("RodriguezA2EFKelmpE01102024AMDO", true, false, "RodriguezA2EF", "SCH", "KelmpE01102024AM"));
+            provider.addTicket(new Ticket("YoungI2CDKelmpE01102024AMDO", true, false, "YoungI2CD", "SCH", "KelmpE01102024AM"));
+            provider.addTicket(new Ticket("LopezE3GHKelmpE01102024AMDO", true, false, "LopezE3GH", "SCH", "KelmpE01102024AM"));
+
+            //afternoon pick up
+            provider.addTicket(new Ticket("JonesE5HWKelmpE01102024PMPU",true,true,"JonesE5HW", "SCH","KelmpE01102024PM"));
+            provider.addTicket(new Ticket("GarciaO2IBKelmpE01102024PMPU",true,true,"GarciaO2IB", "SCH","KelmpE01102024PM"));
+            provider.addTicket(new Ticket("DavisS5SMKelmpE01102024PMPU",true,true,"DavisS5SM", "SCH","KelmpE0110202PM"));
+            provider.addTicket(new Ticket("ClarkL4GHKelmpE01102024PMPU",true,true,"ClarkL4GH", "SCH","KelmpE01102024PM"));
+            provider.addTicket(new Ticket("JohnsonO3ASKelmpE01102024PMPU",true,true,"JohnsonO3AS","SCH","KelmpE01102024PM"));
+            provider.addTicket(new Ticket("FisherL1CDKelmpE01102024PMPU",true,true,"FisherL1CD", "SCH","KelmpE01102024PM")); //ticked Id = childId + journeyId
+            provider.addTicket(new Ticket("RodriguezA2EFKelmpE01102024PMPU",true,true,"RodriguezA2EF", "SCH","KelmpE01102024PM"));
+            provider.addTicket(new Ticket("YoungI2CDKelmpE01102024PMPU",true,true,"YoungI2CD", "SCH","KelmpE01102024PM"));
+            provider.addTicket(new Ticket("LopezE3GHKelmpE01102024PMPU",true,true,"LopezE3GH", "SCH","KelmpE01102024PM"));
+            //afternoon drop off
+            provider.addTicket(new Ticket("JonesE5HWKelmpE01102024PMDO",false,false,"JonesE5HW", "BPS1","KelmpE01102024AM"));
+            provider.addTicket(new Ticket("GarciaO2IBKelmpE01102024PMDO",false,false,"GarciaO2IB", "BPS1","KelmpE01102024AM"));
+            provider.addTicket(new Ticket("DavisS5SMKelmpE01102024PMDO",false,false,"DavisS5SM", "RS1","KelmpE01102024AM"));
+            provider.addTicket(new Ticket("ClarkL4GHKelmpE01102024PMDO",false,false,"ClarkL4GH", "OB1","KelmpE01102024AM"));
+            provider.addTicket(new Ticket("JohnsonO3ASKelmpE01102024PMDO",false,false,"JohnsonO3AS","OB1","KelmpE01102024AM"));
+            provider.addTicket(new Ticket("FisherL1CDKelmpE01102024PMDO",false,false,"FisherL1CD", "BPS1","KelmpE01102024AM")); //ticked Id = childId + journeyId
+            provider.addTicket(new Ticket("RodriguezA2EFKelmpE01102024PMDO",false,false,"RodriguezA2EF", "CS1","KelmpE01102024AM"));
+            provider.addTicket(new Ticket("YoungI2CDKelmpE01102024PMDO",false,false,"YoungI2CD", "TH1","KelmpE01102024AM"));
+            provider.addTicket(new Ticket("LopezE3GHKelmpE01102024PMDO",false,false,"LopezE3GH", "HV1","KelmpE01102024AM"));
+
+        }
 }

@@ -1,5 +1,6 @@
 package com.example.wsbapp3;
 
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -97,9 +98,11 @@ public class TicketFragment extends Fragment {
                 JourneyProvider provider = new JourneyProvider();
                 String journeyId = ticket.getJourneyId();
 
-                if(ticket.getOutwardJourney()) {
-                    provider.addPassenger(journeyId, child); //if outward journey, add child to Passengers
-                    //otherwise, wait until jacket deassigned (confirm child identitity) to offboard passenger
+                if(ticket.isPickUp()) { //PICK UP CHILD
+                    provider.pickUpPassenger(journeyId, child); //if outward journey, add child to Passengers
+                }
+                else{ //DROP OFFF CHILD
+                    provider.dropOffPassenger(journeyId, child.getId());
                 }
             }
 
@@ -114,7 +117,6 @@ public class TicketFragment extends Fragment {
         jacketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Handle button click here
                 onAssignJacketButtonClick();
             }
         });
@@ -148,7 +150,11 @@ public class TicketFragment extends Fragment {
             @Override
             public void onTicketFetched(Ticket ticket) {
                 setTicket(ticket);
-
+                if(ticket.isPickUp()){
+                    jacketButton.setText("Assign Jacket");
+                } else {
+                    jacketButton.setText("De-assign Jacket");
+                }
                 // now fetch and set child object
                 String childId = ticket.getChildId();
                 cProvider.fetchChildById(childId, new ChildProvider.FetchChildCallback() {

@@ -114,6 +114,7 @@ public class PassengersFragment extends Fragment {
         db.collection("Journeys")
                 .document(journeyId)
                 .collection("Passengers")
+                .whereEqualTo("dropOffTime", null) // only passengers who have not been dropped off
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

@@ -1,7 +1,9 @@
 package com.example.wsbapp3;
 
+import android.health.connect.datatypes.units.Length;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,7 +38,8 @@ public class AssignJacketFragment extends Fragment {
     private static final String TICKET_ID = "ticketId";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String ticketId;
+
 
     public AssignJacketFragment() {
         // Required empty public constructor
@@ -61,7 +65,7 @@ public class AssignJacketFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(TICKET_ID);
+            ticketId = getArguments().getString(TICKET_ID);
         }
     }
 
@@ -83,22 +87,25 @@ public class AssignJacketFragment extends Fragment {
     }
 
 
- private void handleFindJacketButtonClick() {
+    private void handleFindJacketButtonClick() {
         PopupTextInput popup = new PopupTextInput();
         String jacketId;
         // Show the popup and provide a callback for when the input is received
         popup.showPopupTextInput(requireContext(), "Enter Jacket Id", new PopupTextInput.InputCallback() {
             @Override
-            public void onInput(String jacketId) {
+            public void onInput(String jacketId) { //Check the jacket exists
                 if (jacketId != null) {
-                    // Input received, now fetch the jacket
+                    // Input receive. If dropping off, check it is the right jacket:
+
+
                     JacketProvider provider = new JacketProvider();
                     provider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
                         @Override
                         public void onJacketFetched(Jacket jacket) {
                             String ticketId = getArguments().getString(TICKET_ID);
-                            loadScanAgainFragment(jacketId,  ticketId);
+                            checkCorrectJacket(jacketId,ticketId);
                         }
+
                         @Override
                         public void onJacketNotFound() {
                             Toast.makeText(requireContext(), "Jacket not found", Toast.LENGTH_SHORT).show();
@@ -119,7 +126,7 @@ public class AssignJacketFragment extends Fragment {
 
     private void loadScanAgainFragment(String jacketId, String ticketId) {
         // Create an instance of JacketFragment and pass the jacket object as an argument
-        ScanAgainFragment scanAgainFragment = ScanAgainFragment.newInstance(jacketId,ticketId);
+        ScanAgainFragment scanAgainFragment = ScanAgainFragment.newInstance(jacketId, ticketId);
 
         // Get the FragmentManager and start a fragment transaction
         FragmentManager fragmentManager = getParentFragmentManager();
@@ -134,4 +141,63 @@ public class AssignJacketFragment extends Fragment {
         // Commit the transaction
         fragmentTransaction.commit();
     }
+
+
+    private void checkCorrectJacket(String jacketId, String ticketId) { //if pick up, calls next fragment, if drop off checks jacket is correct
+        boolean correctJacket;
+        TicketProvider tProvider = new TicketProvider();
+        tProvider.fetchTicketById(ticketId, new TicketProvider.FetchTicketCallback() {
+            @Override
+            public void onTicketFetched(Ticket ticket) {
+                if (ticket.isPickUp()) { //if assigning jacket, go straight to next fragment
+                    loadScanAgainFragment(jacketId, ticketId);
+                } else //if deassigning, check it is the right jacket
+                {
+                    String childId = ticket.getChildId();
+                    String journeyId = ticket.getJourneyId();
+                    DocumentReference passengerDocumentRef = db.collection("Journeys").document(journeyId)
+                            .collection("Passengers")
+                            .document(childId);
+                    passengerDocumentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    String currentJacketId = document.getString("Jacket");
+
+                                    // Check if the current Jacket field value matches the provided jacketId
+                                    if (currentJacketId != null && currentJacketId.equals(jacketId)) {
+                                        loadScanAgainFragment(jacketId, ticketId);
+                                    } else {
+                                        Toast.makeText(requireContext(), "Wrong jacket!", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Log.e("deassignJacket", "Document not found for passenger: " + childId);
+                                    // Handle the case where the passenger document is not found
+                                }
+                            } else {
+                                Log.e("deassignJacket", "Error getting passenger document: " + task.getException().getMessage());
+                                // Handle the exception as needed
+                            }
+                        }
+                    });
+
+                }
+            }
+            @Override
+            public void onTicketNotFound() { //ticket Id already checkde in previous framgnet
+                // Handle case where ticket is not found
+            }
+            @Override
+            public void onFetchFailed(String errorMessage) {
+
+            }
+
+        });
+
+
+    }
+
+
 }
