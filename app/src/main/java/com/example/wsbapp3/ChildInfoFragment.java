@@ -67,13 +67,13 @@ public class ChildInfoFragment extends Fragment {
             @Override
             public void onChildFetched(Child child) {
                 String testString;
-                String contactsString = null;
+                String contactsString = "\nEmergency Contacts:";
                 List<Contact> contacts= child.getChildContacts();
                 for (Contact contact : contacts) {
                     contactsString += "\nContact Name: " + contact.getName();
                     contactsString += "\nContact Detail: " + contact.getContactDetail();
                 }
-                testString = "CHILD INFO\n Name: " + child.getFirstName() + " " + child.getLastName()
+                testString = "CHILD INFO\nName: " + child.getFirstName() + " " + child.getLastName()
                         + "\nID: " + child.getId()
                         + "\nClass Code: " + child.getClassCode()
                         + contactsString;
