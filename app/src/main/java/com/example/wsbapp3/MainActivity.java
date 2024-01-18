@@ -65,16 +65,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        // Add your logic to handle the back button press
-        // For example, pop the back stack
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     }
 
