@@ -8,6 +8,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
+        android:background="@color/orange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
@@ -16,6 +17,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu"
+        app:itemIconSize="40dp"
+        app:itemIconTint="@color/darkBlue"
+        app:itemPaddingTop="15dp"
+        app:itemActiveIndicatorStyle="@color/white"
         />
 
     <androidx.fragment.app.FragmentContainerView

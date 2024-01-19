@@ -1,22 +1,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="100dp"
         android:icon="@drawable/maps"
-        android:id="@+id/route"
-        android:title="Route" />
-    <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:icon="@drawable/home"
-        android:id="@+id/home"
-        android:title="Home" />
-    <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:icon="@drawable/scanner"
-        android:id="@+id/scan"
-        android:title="Scan" />
+        android:contentDescription="Route icon"
+        android:iconTint="@color/white"
+        android:iconTintMode="src_in"
+        android:id="@+id/route"/>
+<!--        android:title="Route Icon"-->
 
+    <item
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:icon="@drawable/home"
+        android:contentDescription="Home icon"
+
+        android:id="@+id/home"/>
+<!--        android:title="Home Icon" -->
+
+    <item
+        android:layout_width="60dp"
+        android:layout_height="100dp"
+        android:icon="@drawable/scanner"
+         android:contentDescription="Scan icon"
+        android:id="@+id/scan"/>
 </menu>
+
