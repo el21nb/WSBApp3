@@ -6,6 +6,6 @@
     <string name="scan_tickets_and_jackets">Scan tickets and jackets</string>
     <string name="passenger_information">View onboard passenger information</string>
     <string name="information_and_advice_for_drivers">Information and advice for drivers</string>
-    <string name="settings">Setting</string>
+    <string name="settings">Settings</string>
     <string name="sign_out">Sign out</string>
 </resources>
