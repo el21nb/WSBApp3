@@ -6,19 +6,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="30dp"
-    tools:context=".ScanFragment">
+    tools:context=".ScanFragment"
+    android:background="@color/yellow">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        >
         <TextView
             android:id="@+id/scanTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Scan Ticket"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:text="@string/scan_bus_ticket"
+            android:textSize="30dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +30,7 @@
         <FrameLayout
             android:id="@+id/camerax_viewFinder"
             android:layout_width="351dp"
-            android:layout_height="400dp"
+            android:layout_height="350dp"
             android:background="@color/cardview_dark_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,19 +40,27 @@
             android:id="@+id/enterCodeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Or manually:"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="20dp"
+            android:text="@string/or_manually"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toTopOf="@+id/findTicketButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_constraintTop_toBottomOf="@id/camerax_viewFinder" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/findTicketButton"
+            android:background="@drawable/orange_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
-            android:text="Find Ticket"
+            android:text="@string/enter_ticket_code"
+            android:fontFamily="@font/montserrat_regular"
+            android:textAllCaps="false"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"

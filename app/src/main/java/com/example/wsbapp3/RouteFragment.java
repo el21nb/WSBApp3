@@ -56,7 +56,7 @@ public class RouteFragment extends Fragment {
         busstopbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BusStopsFragment busStopsFragment = BusStopsFragment.newInstance("","");
+                BusStopsFragment busStopsFragment = BusStopsFragment.newInstance();
                 // Use FragmentManager to replace the current fragment with ScanFragment
                 requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameLayout, busStopsFragment)
