@@ -54,13 +54,33 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView busStopName, busStopAddress;
+        TextView busStopName, busStopAddress, arrow;
         RecyclerView nested_rv;
+        boolean isExpanded;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             busStopName = itemView.findViewById(R.id.busStopName);
             busStopAddress = itemView.findViewById(R.id.address);
             nested_rv = itemView.findViewById(R.id.nested_rv);
+            arrow = itemView.findViewById(R.id.arrow);
+            isExpanded=false; //initialise all as collapsed
+            updateExpandCollapseViews();
+            itemView.setOnClickListener(v -> {
+                isExpanded = !isExpanded;
+                updateExpandCollapseViews();
+            });
+        }
+
+
+        private void updateExpandCollapseViews() {
+            // Update visibility of nested RecyclerView based on the expanded state
+            nested_rv.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+            // Update expand indicator text or icon based on the expanded state
+            arrow.setText(isExpanded ? ">" : "v");
         }
     }
-}
+    }
+
+
+
+

@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         currentJourneyId = "KelmpE01102024AM";
         DatabaseProvider provider = new DatabaseProvider();
-        provider.initialiseDatabase(currentJourneyId);
+        //provider.initialiseDatabase(currentJourneyId); //load database
 
 
     }
