@@ -20,9 +20,10 @@ import java.util.List;
 public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHolder> {
     private Activity activity;
     ArrayList<BusStopListItem> busStopItemArrayList;
-    ArrayList<ChildListItem> childItemArrayList;
+    ArrayList<ArrayList<ChildListItem>> childItemArrayList;
 
-    public BusStopAdapter(Activity activity, ArrayList<BusStopListItem> busStopItemArrayList, ArrayList<ChildListItem> childItemArrayList) {
+    // Constructor
+    public BusStopAdapter(Activity activity, ArrayList<BusStopListItem> busStopItemArrayList, ArrayList<ArrayList<ChildListItem>> childItemArrayList) {
         this.activity = activity;
         this.busStopItemArrayList = busStopItemArrayList;
         this.childItemArrayList = childItemArrayList;
@@ -32,8 +33,6 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bus_stop_list_item,parent,false);
-
-
         return new ViewHolder(view);
     }
 
@@ -42,7 +41,13 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         BusStopListItem busStopItem = busStopItemArrayList.get(position);
         holder.busStopName.setText(busStopItem.busStopName);
         holder.busStopAddress.setText(busStopItem.busStopAddress);
+
+        // Retrieve the child list for the current bus stop
+        ArrayList<ChildListItem> childItemArrayList = this.childItemArrayList.get(position);
+
+        // Pass the child list to the ChildAdapter
         ChildAdapter childAdapter = new ChildAdapter(childItemArrayList);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         holder.nested_rv.setLayoutManager(linearLayoutManager);
         holder.nested_rv.setAdapter(childAdapter);
@@ -79,8 +84,4 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
             arrow.setText(isExpanded ? ">" : "v");
         }
     }
-    }
-
-
-
-
+}
