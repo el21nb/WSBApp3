@@ -12,4 +12,22 @@
     <string name="or_manually">Or manually:</string>
     <string name="scan_bus_ticket">Scan Bus Ticket</string>
     <string name="enter_jacket_id">Enter Jacket ID</string>
+    <string name="bus_stop_name">Bus Stop Name</string>
+    <string name="bus_stop_address">bus stop address</string>
+    <string name="child_name">Child Name</string>
+    <string name="childid">childId</string>
+    <string name="scan_jacket_code">Scan Jacket Code</string>
+    <string name="route_bus_stops">Route Bus Stops</string>
+    <string name="date">date</string>
+    <string name="expand_stops_to_view_bookings">Expand stops to view bookings.</string>
+    <string name="text">text</string>
+    <string name="home_screen">home screen</string>
+    <string name="info_fragment">INFO FRAGMENT</string>
+    <string name="onboard_passengers">Onboard Passengers</string>
+    <string name="today_s_route">Today\'s Route</string>
+    <string name="route_info">Route info</string>
+    <string name="view_bus_stops">View Bus Stops</string>
+    <string name="view_passengers">View Passengers</string>
+    <string name="scan_new_ticket">Scan New TIcket</string>
+    <string name="menu_item">MENU ITEM</string>
 </resources>

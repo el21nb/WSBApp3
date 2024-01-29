@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightBlue"
-    tools:context=".BusStopsFragment">
+    tools:context=".fragments.BusStopsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,36 +14,39 @@
             android:id="@+id/titletext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Route Bus Stops"
-            android:fontFamily="@font/montserrat_medium"
-            android:textColor="@color/black"
-            android:textSize="36sp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/route_bus_stops"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/black"
+            android:textSize="36sp" />
+
         <TextView
             android:id="@+id/datetext"
-            android:layout_below="@+id/titletext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="date"
+            android:layout_below="@+id/titletext"
+            android:layout_centerHorizontal="true"
             android:fontFamily="@font/montserrat_regular"
-            android:textColor="@color/black"
-            android:textSize="24sp"
+            android:text="@string/date"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:layout_centerHorizontal="true"/>
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
         <TextView
             android:id="@+id/instructions"
-            android:layout_below="@+id/datetext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Expand stops to view bookings."
-            android:fontFamily="@font/montserrat"
-            android:textColor="@color/black"
-            android:textSize="20sp"
+            android:layout_below="@+id/datetext"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/expand_stops_to_view_bookings"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:layout_centerHorizontal="true"/>
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVparent"
             android:layout_width="match_parent"

@@ -6,43 +6,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-android:background="@color/yellow"
-    tools:context=".RouteFragment">
+    android:background="@color/yellow"
+    tools:context=".fragments.RouteFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
-        android:id="@+id/routetexttop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-        android:fontFamily="@font/montserrat_medium"
-        android:textSize="26dp"
-        android:text="Today's Route"
+            android:id="@+id/routetexttop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mapFragment"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/today_s_route"
             android:textColor="@color/black"
-        android:layout_below="@id/mapFragment"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp" />
+            android:textSize="26sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/routetext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/routetexttop"
-            app:layout_constraintBottom_toTopOf="@id/mapFragment"
-            android:layout_margin="5dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:fontFamily="@font/montserrat_regular"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            android:text="Route info"
             android:layout_below="@id/mapFragment"
+            android:layout_margin="5dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp" />
+            android:fontFamily="@font/montserrat_regular"
+            android:text="@string/route_info"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/mapFragment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/routetexttop" />
 
         <fragment
             android:id="@+id/mapFragment"
@@ -54,24 +56,24 @@ android:background="@color/yellow"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/routetext"
-            tools:context=".RouteFragment" />
+            tools:context=".fragments.RouteFragment" />
 
         <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/busstopbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textAllCaps="false"
-        android:textAppearance="@font/montserrat_regular"
-        android:padding="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mapFragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:fontFamily="@font/montserrat_regular"
-        android:background="@drawable/light_blue_button"
-        android:text="View Bus Stops"/>
+            android:id="@+id/busstopbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/light_blue_button"
+            android:fontFamily="@font/montserrat_regular"
+            android:padding="8dp"
+            android:text="@string/view_bus_stops"
+            android:textAllCaps="false"
+            android:textAppearance="@font/montserrat_regular"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mapFragment" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </FrameLayout>
+</FrameLayout>

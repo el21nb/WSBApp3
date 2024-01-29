@@ -7,14 +7,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightBlue"
-    tools:context=".HomeFragment">
+    tools:context=".fragments.HomeFragment">
 
     <TextView
         android:id="@+id/hometext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_regular"
-        android:text="home screen"
+        android:text="@string/home_screen"
         android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/routebutton"
@@ -24,9 +24,6 @@
 
     <RelativeLayout
         android:id="@+id/routebutton"
-        app:layout_constraintTop_toBottomOf="@+id/hometext"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginHorizontal="20dp"
@@ -35,33 +32,36 @@
         android:clickable="true"
         android:gravity="center"
         android:onClick="go_map"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hometext"
+        android:focusable="true">
 
         <ImageView
             android:id="@+id/mapsicon"
-            android:layout_marginLeft="15dp"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
+            android:layout_marginStart="15dp"
             android:foregroundGravity="center_horizontal"
-            app:srcCompat="@drawable/maps" />
+            app:srcCompat="@drawable/maps"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/mapstext"
-            android:layout_toRightOf="@id/mapsicon"
-            android:layout_centerVertical="true"
-          android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/mapsicon"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/view_today_s_route"
             android:textSize="20sp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/scanbutton"
-        app:layout_constraintTop_toBottomOf="@id/routebutton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginHorizontal="20dp"
@@ -70,24 +70,29 @@
         android:clickable="true"
         android:gravity="center"
         android:onClick="go_map"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/routebutton"
+        android:focusable="true">
 
         <ImageView
             android:id="@+id/scanicon"
-            android:layout_marginLeft="15dp"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
+            android:layout_marginStart="15dp"
             android:foregroundGravity="center_horizontal"
-            app:srcCompat="@drawable/scanner" />
+            app:srcCompat="@drawable/scanner"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/scantext"
-            android:layout_toRightOf="@id/scanicon"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/scanicon"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/scan_tickets_and_jackets"
             android:textSize="20sp" />
@@ -95,9 +100,6 @@
 
     <RelativeLayout
         android:id="@+id/passengersbutton"
-        app:layout_constraintTop_toBottomOf="@id/scanbutton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginHorizontal="20dp"
@@ -106,33 +108,36 @@
         android:clickable="true"
         android:gravity="center"
         android:onClick="go_map"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scanbutton"
+        android:focusable="true">
 
         <ImageView
             android:id="@+id/passengersicon"
-            android:layout_marginLeft="15dp"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
+            android:layout_marginStart="15dp"
             android:foregroundGravity="center_horizontal"
-            app:srcCompat="@drawable/passengers" />
+            app:srcCompat="@drawable/passengers"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/passengerstext"
-            android:layout_toRightOf="@+id/passengersicon"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/passengersicon"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/passenger_information"
             android:textSize="20sp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/infobutton"
-        app:layout_constraintTop_toBottomOf="@id/passengersbutton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginHorizontal="20dp"
@@ -141,33 +146,36 @@
         android:clickable="true"
         android:gravity="center"
         android:onClick="go_map"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passengersbutton"
+        android:focusable="true">
 
         <ImageView
             android:id="@+id/infoicon"
-            android:layout_marginLeft="15dp"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
+            android:layout_marginStart="15dp"
             android:foregroundGravity="center_horizontal"
-            app:srcCompat="@drawable/info" />
+            app:srcCompat="@drawable/info"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/infotext"
-            android:layout_toRightOf="@id/infoicon"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/infoicon"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/information_and_advice_for_drivers"
             android:textSize="20sp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/settingsbutton"
-        app:layout_constraintTop_toBottomOf="@id/infobutton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginHorizontal="20dp"
@@ -176,24 +184,28 @@
         android:clickable="true"
         android:gravity="center"
         android:onClick="go_map"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/infobutton"
+        android:focusable="true">
 
         <ImageView
-            android:layout_marginLeft="15dp"
             android:id="@+id/settingsicon"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
+            android:layout_marginStart="15dp"
             android:foregroundGravity="center_horizontal"
             app:srcCompat="@drawable/settings" />
 
         <TextView
             android:id="@+id/settingstext"
-            android:layout_toRightOf="@id/settingsicon"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/settingsicon"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/settings"
             android:textSize="20sp" />
@@ -202,8 +214,6 @@
     <RelativeLayout
         android:id="@+id/signout"
         android:layout_width="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
@@ -214,22 +224,25 @@
         android:onClick="go_map"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settingsbutton"
         app:layout_constraintVertical_bias="0.728"
-        tools:layout_editor_absoluteX="-10dp">
+        tools:layout_editor_absoluteX="-10dp"
+        android:focusable="true">
 
         <TextView
             android:id="@+id/signouttext"
-            android:padding="4dp"
-            android:layout_marginHorizontal="40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/white"
-            android:layout_marginLeft="20dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginStart="20dp"
             android:fontFamily="@font/montserrat_medium"
+            android:padding="4dp"
             android:text="@string/sign_out"
+            android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
