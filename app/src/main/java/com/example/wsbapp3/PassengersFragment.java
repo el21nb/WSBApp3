@@ -79,7 +79,6 @@ import java.util.Map;
                 public void onItemClick(String childId) {
                     ChildInfoFragment childInfoFragment = ChildInfoFragment.newInstance(childId);
 
-                    // Use FragmentManager to replace the current fragment with AssignJacketFragment
                     requireActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frameLayout, childInfoFragment)
                             .addToBackStack(null)  // Add to back stack so the user can navigate back

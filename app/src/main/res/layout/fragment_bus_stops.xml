@@ -16,12 +16,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Route Bus Stops"
-            android:fontFamily="@font/montserrat_regular"
+            android:fontFamily="@font/montserrat_medium"
             android:textColor="@color/black"
             android:textSize="36sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="8dp" />
         <TextView
             android:id="@+id/datetext"
             android:layout_below="@+id/titletext"
@@ -32,14 +32,24 @@
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp" />
-
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/instructions"
+            android:layout_below="@+id/datetext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expand stops to view bookings."
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:layout_centerHorizontal="true"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/datetext"
+            android:layout_below="@id/instructions"
             android:layout_marginTop="16dp" />
     </RelativeLayout>
 </FrameLayout>

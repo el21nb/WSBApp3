@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,11 +23,13 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
     ArrayList<BusStopListItem> busStopItemArrayList;
     ArrayList<ArrayList<ChildListItem>> childItemArrayList;
 
-    // Constructor
-    public BusStopAdapter(Activity activity, ArrayList<BusStopListItem> busStopItemArrayList, ArrayList<ArrayList<ChildListItem>> childItemArrayList) {
+    private FragmentManager fragmentManager;
+
+    public BusStopAdapter(Activity activity, ArrayList<BusStopListItem> busStopItemArrayList, ArrayList<ArrayList<ChildListItem>> childItemArrayList, FragmentManager fragmentManager) {
         this.activity = activity;
         this.busStopItemArrayList = busStopItemArrayList;
         this.childItemArrayList = childItemArrayList;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -46,7 +49,8 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
         ArrayList<ChildListItem> childItemArrayList = this.childItemArrayList.get(position);
 
         // Pass the child list to the ChildAdapter
-        ChildAdapter childAdapter = new ChildAdapter(childItemArrayList);
+        ChildAdapter childAdapter = new ChildAdapter(childItemArrayList, fragmentManager);
+
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         holder.nested_rv.setLayoutManager(linearLayoutManager);
@@ -81,7 +85,7 @@ public class BusStopAdapter extends RecyclerView.Adapter<BusStopAdapter.ViewHold
             // Update visibility of nested RecyclerView based on the expanded state
             nested_rv.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
             // Update expand indicator text or icon based on the expanded state
-            arrow.setText(isExpanded ? ">" : "v");
+            arrow.setText(isExpanded ? "v" : ">");
         }
     }
 }
