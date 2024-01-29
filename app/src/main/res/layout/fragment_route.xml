@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 android:background="@color/yellow"
-    tools:context=".RouteFragment">
+    tools:context=".fragments.RouteFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,7 +54,7 @@ android:background="@color/yellow"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/routetext"
-            tools:context=".RouteFragment" />
+            tools:context=".fragments.RouteFragment" />
 
         <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/busstopbutton"
