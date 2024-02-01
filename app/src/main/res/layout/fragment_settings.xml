@@ -10,6 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="SETTINGS FRAGMENT"
-        android:textSize="30sp"/>
+        android:textSize="30sp" />
 
 </FrameLayout>

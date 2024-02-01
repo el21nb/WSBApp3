@@ -19,11 +19,11 @@ public class PopupTextInput {
     }
 
     public static void showPopupTextInput(Context context, String title, InputCallback callback) {
-        // Create an EditText to get user input
+        //EditText to get user input
         final EditText input = new EditText(context);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
 
-        // Create a LinearLayout to hold the EditText
+        //LinearLayout to hold the EditText
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.addView(input);
@@ -35,7 +35,7 @@ public class PopupTextInput {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing here; we handle the result after the dialog is closed
+                        //  handle the result after dialog is closed
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -55,11 +55,11 @@ public class PopupTextInput {
             public void onClick(View v) {
                 String userInput = input.getText().toString();
                 if (!userInput.trim().isEmpty()) {
-                    // Call the callback with the input and dismiss the dialog
+                    // Call the callback with the input and dismiss dialog
                     callback.onInput(userInput);
                     alertDialog.dismiss();
                 } else {
-                    // Optionally, you can show an error message for empty input
+                    // error message for empty input
                     input.setError("Please enter text");
                 }
             }
