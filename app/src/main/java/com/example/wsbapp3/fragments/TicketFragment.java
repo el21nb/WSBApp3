@@ -21,9 +21,11 @@ import com.example.wsbapp3.models.Journey;
 import com.example.wsbapp3.models.Ticket;
 
 /**
- * Shown after ScanFragment. Confirms passenger picked up/dropped off.
- * Directs to assign jacket fragment.
- * Todo: UI
+ * Shown after ScanFragment.
+ * Calls pickUpPassenger or dropOffPassenger to write to database.
+ * Confirms passenger picked up/dropped off onscreen.
+ * Button directs to AssignJacketFragment.
+ * Todo: finish UI
  */
 public class TicketFragment extends Fragment {
 

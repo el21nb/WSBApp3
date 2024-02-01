@@ -22,8 +22,8 @@ import com.example.wsbapp3.models.PopupTextInput;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
- * ScanFragment- Scan a QR Code ticket or manually enter code.
- * Checks ticket validity, then opens a TicketFragment.
+ * ScanFragment- User can scan a QR Code ticket or manually enter code.
+ * Checks ticket validity against database, then passes the ticketId to a new TicketFragment.
  * TODO: set up QR code scanner
  */
 public class ScanFragment extends Fragment {

@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Fragment to display a recycler view of bus stops on the journey and their arrival times.
+ * Fragment to display a recyclerview of bus stops on the journey and their arrival times.
  * Accessed via a button in RouteFragment
  * Each bus stop item has a nested recyclerview containing the children
  * booked for that stop.
