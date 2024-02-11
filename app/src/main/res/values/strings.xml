@@ -30,4 +30,10 @@
     <string name="view_passengers">View Passengers</string>
     <string name="scan_new_ticket">Scan New TIcket</string>
     <string name="menu_item">MENU ITEM</string>
+    <string name="where_do_i_find_these">Where do I find these?</string>
+    <string name="log_in">Log in</string>
+    <string name="please_enter_your_credentials_as_provided_by_the_organiser">Please enter your credentials, as provided by the organiser.</string>
+    <string name="driver_login">Driver Login</string>
+    <string name="wsb_app">WSB App</string>
+    <string name="logo">logo\n</string>
 </resources>
