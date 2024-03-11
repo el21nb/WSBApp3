@@ -39,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = etUsername.toString().trim();
-                String password = etPassword.toString().trim();
+                String email = etUsername.getText().toString().trim();
+                String password = etPassword.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){
                     etUsername.setError("No email provided.");
@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
                                 checkUserRole();
 
-                                Toast.makeText(LoginActivity.this,"Driver signed in", Toast.LENGTH_SHORT);
+                                Toast.makeText(LoginActivity.this,"Driver signed in", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             } else {
                                 Toast.makeText(LoginActivity.this, "Failed to login: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
