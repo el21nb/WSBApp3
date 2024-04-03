@@ -15,10 +15,11 @@ public class Child {
     List<Contact> childContacts;
     private String classCode;
 
+    private String parentId;
     public Child() {
     }
 
-    public Child(String id, String firstName, String lastName, String contactName, String contactDetail, String classCode) {
+    public Child(String id, String firstName, String lastName, String contactName, String contactDetail, String classCode, String parentId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,6 +27,15 @@ public class Child {
         Contact childContact = new Contact(contactName, contactDetail);
         this.childContacts.add(childContact);
         this.classCode = classCode;
+        this.parentId = parentId;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     public String getId() {

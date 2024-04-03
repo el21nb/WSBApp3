@@ -10,6 +10,8 @@ public class Journey {
     private String id;
     private Contact driverContact;
 
+    private String driverId;
+
     private String journeyDateTime;
 
     private boolean outwardJourney;
@@ -21,12 +23,25 @@ public class Journey {
         id = id;
     }
 
-    public Journey(String id, String driverName, String driverPhone, String journeyDateTime, boolean outwardJourney) {
+    public Journey(String id, String driverName, String driverPhone, String journeyDateTime, boolean outwardJourney, String driverId) {
         this.id = id;
         Contact contact = new Contact(driverName, driverPhone);
         this.driverContact = contact;
         this.journeyDateTime = journeyDateTime;
         this.outwardJourney = outwardJourney;
+        this.driverId = driverId;
+    }
+
+    public String getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(String driverId) {
+        this.driverId = driverId;
+    }
+
+    public boolean isOutwardJourney() {
+        return outwardJourney;
     }
 
     public String getId() {

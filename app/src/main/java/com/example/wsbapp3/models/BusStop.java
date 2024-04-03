@@ -10,16 +10,38 @@ public class BusStop {
     private String name;
     private String address;
 
+    private String latitude;
+
+    private String longitude;
+
     /**
      * Default constructor
      */
     public BusStop() {
     }
 
-    public BusStop(String id, String name, String address) {
+    public BusStop(String id, String name, String address, String latitude, String longitude) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public String getId() {

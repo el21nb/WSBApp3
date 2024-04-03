@@ -13,16 +13,19 @@ public class Ticket {
     private String busStopId;
     private String journeyId;
 
+    private String ownerId;
+
     public Ticket() {
     }
 
-    public Ticket(String ticketId, boolean schoolTicket, boolean pickUp, String childId, String busStopId, String journeyId) {
+    public Ticket(String ticketId, boolean schoolTicket, boolean pickUp, String childId, String busStopId, String journeyId, String ownerId) {
         this.ticketId = ticketId;
         this.schoolTicket = schoolTicket;
         this.pickUp = pickUp;
         this.childId = childId;
         this.busStopId = busStopId;
         this.journeyId = journeyId;
+        this.ownerId = ownerId;
     }
 
     public boolean isPickUp() {
