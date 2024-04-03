@@ -130,6 +130,7 @@ public class JourneyProvider {
         //Add child object to map
         passengerData.put("Child", child);
         // Set the OnboardTime to the current timestamp
+        passengerData.put("parentId", child.getParentId());
         passengerData.put("pickUpTime", FieldValue.serverTimestamp());
         //Set other fields to null
         passengerData.put("dropOffTime", null);

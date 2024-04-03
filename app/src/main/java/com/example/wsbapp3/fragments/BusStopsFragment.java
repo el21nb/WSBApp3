@@ -116,7 +116,6 @@ public class BusStopsFragment extends Fragment {
     /**
      * Populates the parent and nested recyckerviews from the database
      */
-
     public void populateBusStopList() {
         FirebaseFirestore db = FirebaseFirestore.getInstance(); // Initialize Firestore
         busStopListItemArrayList = new ArrayList<>();
@@ -181,7 +180,7 @@ public class BusStopsFragment extends Fragment {
 
                                                             //Add child to list
                                                             childrenList.add(childListItem);
-                                                            Log.d("BSF", "adding child to array " + childrenList.size());
+                                                            Log.d("FetchChildren", "adding child to array " + childrenList.size());
                                                         }
 
                                                         //Add list of children to ArrayList of children lists, at the corresponding position to the bus stop
@@ -192,15 +191,13 @@ public class BusStopsFragment extends Fragment {
                                                         // Check if all bus stops are processed
                                                         if (completedBusStops.incrementAndGet() == totalBusStops) {
                                                             // When all bus stops processed, set up the adapter and RecyclerView
-                                                            if (busStopAdapter == null) {
-                                                                busStopAdapter = new BusStopAdapter(requireActivity(), busStopListItemArrayList, childListItemArrayList, requireActivity().getSupportFragmentManager());
-                                                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-                                                                rvParent.setLayoutManager(linearLayoutManager);
-                                                                rvParent.setAdapter(busStopAdapter);
-                                                            }
+                                                            busStopAdapter = new BusStopAdapter(requireActivity(), busStopListItemArrayList, childListItemArrayList, requireActivity().getSupportFragmentManager());
+                                                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+                                                            rvParent.setLayoutManager(linearLayoutManager);
+                                                            rvParent.setAdapter(busStopAdapter);
                                                         }
                                                     } else {
-                                                        Log.d("BSF", "Error getting documents: ", task.getException());
+                                                        Log.d("FetchChildren", "Error getting documents: ", task.getException());
                                                     }
                                                 }
                                             });
@@ -209,101 +206,6 @@ public class BusStopsFragment extends Fragment {
                         }
                     }
                 });
+
     }
 }
-
-
-
-//    public void populateBusStopList() {
-//        FirebaseFirestore db = FirebaseFirestore.getInstance(); // Initialize Firestore
-//        busStopListItemArrayList = new ArrayList<>();
-//        ArrayList<ArrayList<ChildListItem>> childListItemArrayList = new ArrayList<>();
-//
-//        //Fetch journey bus stops and order by arrival time
-//        db.collection("Journeys")
-//                .document(((MainActivity) requireActivity()).getCurrentJourneyId())
-//                .collection("JourneyBusStops")
-//                .orderBy("arrivalTime")
-//                .get()
-//                .addOnCompleteListener(requireActivity(), new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            int totalBusStops = task.getResult().size();
-//
-//                            //Counter to ensure all children fetched before fetching next bus stop
-//                            AtomicInteger completedBusStops = new AtomicInteger(0);
-//
-//                            //Iterate through journey bus stops
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Map<String, Object> busStopData = (Map<String, Object>) document.get("busStop");
-//
-//                                //Fetch bus stop data
-//                                if (busStopData != null) {
-//                                    String arrivalTime = document.getString("arrivalTime");
-//                                    String busStopName = (String) busStopData.get("name");
-//                                    String busStopAddress = (String) busStopData.get("address");
-//                                    String busStopId = (String) busStopData.get("id");
-//                                    Log.d("BSF", "Fetched bus stop " + busStopName);
-//
-//                                    //Create busStopListItem
-//                                    BusStopListItem busStopListItem = new BusStopListItem(arrivalTime + "- " + busStopName, busStopAddress);
-//                                    busStopListItemArrayList.add(busStopListItem);
-//
-//                                    // Initialize child list for this bus stop
-//                                    ArrayList<ChildListItem> childrenList = new ArrayList<>();
-//                                    // Get the index of the current bus stop
-//                                    int currentBusStopIndex = busStopListItemArrayList.size() - 1;
-//
-//                                    // Add an empty list for each bus stop
-//                                    childListItemArrayList.add(new ArrayList<>());
-//
-//                                    //Fetch busStopChildren
-//                                    db.collection("Journeys")
-//                                            .document(((MainActivity) requireActivity()).getCurrentJourneyId())
-//                                            .collection("JourneyBusStops")
-//                                            .document(busStopId)
-//                                            .collection("busStopChildren")
-//                                            .get()
-//                                            .addOnCompleteListener(requireActivity(), new OnCompleteListener<QuerySnapshot>() {
-//                                                @Override
-//                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                                    if (task.isSuccessful()) {
-//
-//                                                        //Iterate through busStopChildren
-//                                                        for (QueryDocumentSnapshot document : task.getResult()) {
-//                                                            String name = document.getString("firstName") + " " + document.getString("lastName");
-//                                                            String childId = document.getId();
-//                                                            ChildListItem childListItem = new ChildListItem(name, childId);
-//
-//                                                            //Add child to list
-//                                                            childrenList.add(childListItem);
-//                                                            Log.d("BSF", "adding child to array " + childrenList.size());
-//                                                        }
-//
-//                                                        //Add list of children to ArrayList of children lists, at the corresponding position to the bus stop
-//                                                        if (currentBusStopIndex < childListItemArrayList.size()) {
-//                                                            childListItemArrayList.set(currentBusStopIndex, childrenList);
-//                                                        }
-//
-//                                                        // Check if all bus stops are processed
-//                                                        if (completedBusStops.incrementAndGet() == totalBusStops) {
-//                                                            // When all bus stops processed, set up the adapter and RecyclerView
-//                                                            busStopAdapter = new BusStopAdapter(requireActivity(), busStopListItemArrayList, childListItemArrayList, requireActivity().getSupportFragmentManager());
-//                                                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-//                                                            rvParent.setLayoutManager(linearLayoutManager);
-//                                                            rvParent.setAdapter(busStopAdapter);
-//                                                        }
-//                                                    } else {
-//                                                        Log.d("BSF", "Error getting documents: ", task.getException());
-//                                                    }
-//                                                }
-//                                            });
-//                                }
-//                            }
-//                        }
-//                    }
-//                });
-//
-//    }
-//}

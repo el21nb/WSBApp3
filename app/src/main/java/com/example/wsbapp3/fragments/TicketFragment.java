@@ -129,8 +129,10 @@ public class TicketFragment extends Fragment {
                 String journeyId = ticket.getJourneyId();
 
                 if (ticket.isPickUp()) { //PICK UP CHILD
+                    Log.d("Passengers", "ticket.isPickUp()");
                     provider.pickUpPassenger(journeyId, child);
                 } else { //DROP OFFF CHILD
+                    Log.d("Passengers", "ticket.is Drop Off");
                     provider.dropOffPassenger(journeyId, child.getId());
                 }
             }

@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Initialise current journey Id, can be changed
-        currentJourneyId = "KelmpE01102024AM";
+        currentJourneyId = "AppelbeesK102102024AM";
         //Preload database, does not need to be done every time.
         //TODO: move to a cloud function
         //DatabaseProvider provider = new DatabaseProvider();
