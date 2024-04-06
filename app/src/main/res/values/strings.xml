@@ -28,7 +28,7 @@
     <string name="route_info">Route info</string>
     <string name="view_bus_stops">View Bus Stops</string>
     <string name="view_passengers">View Passengers</string>
-    <string name="scan_new_ticket">Scan New TIcket</string>
+    <string name="scan_new_ticket">Scan New Ticket</string>
     <string name="menu_item">MENU ITEM</string>
     <string name="where_do_i_find_these">Where do I find these?</string>
     <string name="log_in">Log in</string>
@@ -79,4 +79,6 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="none">None</string>
+    <string name="medical_notes">Medical Notes</string>
 </resources>

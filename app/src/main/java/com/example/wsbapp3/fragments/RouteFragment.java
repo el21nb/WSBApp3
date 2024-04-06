@@ -11,12 +11,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.wsbapp3.R;
 import com.example.wsbapp3.activities.MainActivity;
+import com.example.wsbapp3.database.ChildProvider;
+import com.example.wsbapp3.database.JourneyProvider;
+import com.example.wsbapp3.database.TicketProvider;
 import com.example.wsbapp3.fragments.BusStopsFragment;
 import com.example.wsbapp3.models.BusStop;
 import com.example.wsbapp3.models.Child;
+import com.example.wsbapp3.models.Journey;
+import com.example.wsbapp3.models.Ticket;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -50,8 +56,13 @@ public class RouteFragment extends Fragment implements OnMapReadyCallback {
     private boolean pointsPlotted = false;
     private boolean routeDrawn = false;
 
+    private String currentJourneyId;
+
+    private String journeyDateTime;
+
     // Button to open list of bus stops
     AppCompatButton busstopbutton;
+    TextView routetext;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -77,6 +88,8 @@ public class RouteFragment extends Fragment implements OnMapReadyCallback {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+        routetext = v.findViewById(R.id.routetext);
+        getJourneyDateTime();
 
         busstopbutton = v.findViewById(R.id.busstopbutton);
         busstopbutton.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +104,29 @@ public class RouteFragment extends Fragment implements OnMapReadyCallback {
         return v;
     }
 
-    @Override
+    private void getJourneyDateTime() {
+        currentJourneyId = ((MainActivity) requireActivity()).getCurrentJourneyId();
+        JourneyProvider journeyProvider = new JourneyProvider();
+        journeyProvider.fetchJourneyById(currentJourneyId, new JourneyProvider.FetchJourneyCallback() {
+            //Fetch and set ticket object
+            @Override
+            public void onJourneyFetched(Journey journey) {
+                journeyDateTime = journey.getJourneyDateTime();
+                routetext.setText(journeyDateTime);
+            }
+
+            @Override
+            public void onJourneyNotFound() {
+                Log.d("RF", "Error fetching journey ");
+            }
+
+            @Override
+            public void onFetchFailed(String errorMessage) {
+                Log.d("RF", "Error fetching journey " + errorMessage);
+            }
+        });
+    }
+            @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragment);

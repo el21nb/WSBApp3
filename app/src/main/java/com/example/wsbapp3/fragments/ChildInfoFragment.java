@@ -32,7 +32,12 @@ public class ChildInfoFragment extends Fragment {
     private String childId;
 
     //Textview to display all the child data
-    TextView testText;
+    TextView nameText;
+    TextView childIdText;
+    TextView classCodeText;
+    TextView contactsText;
+    TextView medicalText;
+
 
     public ChildInfoFragment() {
         // Required empty public constructor
@@ -87,23 +92,26 @@ public class ChildInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_child_info, container, false);
-        testText = v.findViewById(R.id.textview);
+        nameText = v.findViewById(R.id.nameText);
+        childIdText = v.findViewById(R.id.childIdText);
+        classCodeText = v.findViewById(R.id.classCodeText);
+        contactsText = v.findViewById(R.id.contactsText);
+        medicalText = v.findViewById(R.id.medicalText);
         ChildProvider provider = new ChildProvider();
         provider.fetchChildById(childId, new ChildProvider.FetchChildCallback() {
             @Override
             public void onChildFetched(Child child) {
                 String testString;
-                String contactsString = "\nEmergency Contacts:";
+                String contactsString = "";
                 List<Contact> contacts = child.getChildContacts();
                 for (Contact contact : contacts) {
-                    contactsString += "\nContact Name: " + contact.getName();
-                    contactsString += "\nContact Detail: " + contact.getContactDetail();
+                    contactsString += "\nName: " + contact.getName();
+                    contactsString += "\nDetail: " + contact.getContactDetail();
                 }
-                testString = "CHILD INFO\nName: " + child.getFirstName() + " " + child.getLastName()
-                        + "\nID: " + child.getId()
-                        + "\nClass Code: " + child.getClassCode()
-                        + contactsString;
-                testText.setText(testString);
+                nameText.setText(child.getFirstName() + " " + child.getLastName());
+                childIdText.setText(child.getId());
+                classCodeText.setText(child.getClassCode());
+                contactsText.setText(contactsString);
             }
 
             @Override

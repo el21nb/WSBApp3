@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.wsbapp3.activities.MainActivity;
@@ -47,6 +48,8 @@ public class AssignJacketFragment extends Fragment {
     private static final String TICKET_ID = "ticketId";
 
     private String ticketId;
+
+    private TextView scanTitle;
 
     Button scanJacketButton;
 
