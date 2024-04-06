@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:foregroundGravity="center_vertical"
         android:layout_marginTop="0dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -87,7 +87,8 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/outlined_white"
-            android:hint="   Username"
+            android:paddingHorizontal="20dp"
+            android:hint="Username"
             app:expandedHintEnabled="true"
             app:hintTextAppearance="@font/montserrat_medium"
             app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +105,9 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/outlined_white"
-            android:hint="   Password"
+            android:paddingHorizontal="20dp"
+
+            android:hint="Password"
             tools:layout_editor_absoluteX="1dp"
             tools:layout_editor_absoluteY="307dp"
             app:boxStrokeWidth="2dp"
@@ -134,16 +137,14 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/orange_button"
             android:fontFamily="@font/montserrat_medium"
             android:text="@string/log_in"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/help"/>
+            app:layout_constraintTop_toBottomOf="@id/help" />
 
 
 

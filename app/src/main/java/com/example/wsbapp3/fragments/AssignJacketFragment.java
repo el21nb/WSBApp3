@@ -1,5 +1,7 @@
 package com.example.wsbapp3.fragments;
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.wsbapp3.activities.MainActivity;
 import com.example.wsbapp3.models.Jacket;
 import com.example.wsbapp3.database.JacketProvider;
 import com.example.wsbapp3.models.PopupTextInput;
@@ -26,6 +29,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 /**
  * Fragment to assign or deassign a jacket to a child, after ticket scanned and info shown in TicketFragment.
@@ -43,7 +48,9 @@ public class AssignJacketFragment extends Fragment {
 
     private String ticketId;
 
+    Button scanJacketButton;
 
+    Button findJacketButton;
     public AssignJacketFragment() {
         // Required empty public constructor
     }
@@ -95,7 +102,8 @@ public class AssignJacketFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_assign_jacket, container, false);
-        Button findJacketButton = view.findViewById(R.id.findJacketButton);
+        findJacketButton = view.findViewById(R.id.findJacketButton);
+        scanJacketButton = view.findViewById(R.id.scanJacketButton);
         db = FirebaseFirestore.getInstance();
         findJacketButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,9 +111,74 @@ public class AssignJacketFragment extends Fragment {
                 handleFindJacketButtonClick();
             }
         });
+        scanJacketButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                IntentIntegrator intentIntegrator = new IntentIntegrator(requireActivity());
+                intentIntegrator.setOrientationLocked(false);
+                intentIntegrator.setPrompt("Scan Ticket QR Code");
+                intentIntegrator.setOrientationLocked(true);
+                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+                intentIntegrator.forSupportFragment(AssignJacketFragment.this).initiateScan();
+                intentIntegrator.forSupportFragment(AssignJacketFragment.this).initiateScan();
+
+            }
+        });
         return view;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("scan", "in on ActivityResult");
+        super.onActivityResult(requestCode, resultCode, data);
+
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            Log.d("scan", "result non null");
+
+            if (result.getContents() == null) {
+                // If result is null, handle cancellation or error
+                Toast.makeText(requireContext(), "Scan canceled", Toast.LENGTH_SHORT).show();
+            } else {
+                // Process the scanned data
+                String jacketId = result.getContents();
+                Log.d("scan", "got jacketId" + jacketId);
+
+                if ( jacketId != null) {
+                    // Input receive. If dropping off, check it is the right jacket:
+
+
+                    JacketProvider provider = new JacketProvider();
+                    provider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
+                        @Override
+                        public void onJacketFetched(Jacket jacket) {
+                            String ticketId = getArguments().getString(TICKET_ID);
+                            checkCorrectJacket(jacketId, ticketId);
+                        }
+
+                        @Override
+                        public void onJacketNotFound() {
+                            Toast.makeText(requireContext(), "Jacket not found", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFetchFailed(String errorMessage) {
+                            Toast.makeText(requireContext(), "Jacket fetch failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // Handle the case where the user didn't provide a valid jacketId
+                    Toast.makeText(requireContext(), "Invalid Jacket Id", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else {
+            // Call super method for other activity results
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 
     /**
      * Handles click of manual jacket code entry button.
@@ -148,7 +221,6 @@ public class AssignJacketFragment extends Fragment {
             }
         });
     }
-
 
     /**
      * Checks the jacket code input from the manual input (and eventually QR scan)

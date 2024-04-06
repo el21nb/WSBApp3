@@ -123,7 +123,7 @@ public class ScanFragment extends Fragment {
 
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 IntentIntegrator intentIntegrator = new IntentIntegrator(requireActivity());
-                intentIntegrator.setOrientationLocked(true);
+                intentIntegrator.setOrientationLocked(false);
                 intentIntegrator.setPrompt("Scan Ticket QR Code");
                 intentIntegrator.setOrientationLocked(true);
                 intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);

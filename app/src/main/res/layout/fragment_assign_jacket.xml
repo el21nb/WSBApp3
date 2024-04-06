@@ -28,12 +28,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <FrameLayout
-            android:id="@+id/camerax_viewFinder"
-            android:layout_width="350dp"
-            android:layout_height="350dp"
-            android:background="@color/cardview_dark_background"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/scanJacketButton"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/orange_button"
+            android:fontFamily="@font/montserrat_regular"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:text="Scan QR code"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/scanTitle" />
 
@@ -49,7 +58,7 @@
             app:layout_constraintBottom_toTopOf="@+id/findJacketButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_constraintTop_toBottomOf="@id/camerax_viewFinder" />
+            tools:layout_constraintTop_toBottomOf="@id/scanJacketButton" />
 
 
         <androidx.appcompat.widget.AppCompatButton
