@@ -2,10 +2,18 @@ package com.example.wsbapp3.activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,6 +24,8 @@ import com.example.wsbapp3.fragments.ScanFragment;
 import com.example.wsbapp3.database.DatabaseProvider;
 import com.example.wsbapp3.databinding.ActivityMainBinding;
 import com.example.wsbapp3.fragments.HomeFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 /**
  * Main Activity houses all the fragment accessible from the bottom nav bar and the home screen menu
@@ -35,7 +45,14 @@ public class MainActivity extends AppCompatActivity {
         this.currentJourneyId = currentJourneyId;
     }
 
-
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // FCM SDK (and your app) can post notifications.
+                } else {
+                    Toast.makeText(MainActivity.this, "Warning: no notifications will be shown!", Toast.LENGTH_SHORT).show();
+                }
+            });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Create View
@@ -44,8 +61,18 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //initialise with home fragment
+        //Subscribe to notifications
+        FirebaseMessaging.getInstance().subscribeToTopic("statuses")
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("notifications", "Subscribed");
+                    } else {
+                        Log.e("notifications", "Not subscribed: " + task.getException());
+                    }
+                });
+
         replaceFragment(new HomeFragment());
+
 
         //Set bottom nav menu
         binding.bottomNavigationView.setItemActiveIndicatorColor(null);
@@ -60,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new ScanFragment());
             }
             return true;
+
+
         });
 
         //Initialise current journey Id, can be changed
@@ -94,6 +123,12 @@ public class MainActivity extends AppCompatActivity {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+
+
+
+
+
 }
 
 
