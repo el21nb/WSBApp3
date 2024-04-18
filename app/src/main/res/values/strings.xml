@@ -81,4 +81,6 @@
     </string>
     <string name="none">None</string>
     <string name="medical_notes">Medical Notes</string>
+    <string name="status_visibility">Status visibility:</string>
+    <string name="status_update">Status Update</string>
 </resources>

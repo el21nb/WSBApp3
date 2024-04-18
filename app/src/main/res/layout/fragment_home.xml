@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,27 +7,40 @@
     android:layout_height="match_parent"
     android:background="@color/lightBlue"
     tools:context=".fragments.HomeFragment">
-
     <TextView
         android:id="@+id/hometext"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_regular"
         android:text="@string/home_screen"
         android:textColor="@color/black"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@id/routebutton"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@id/scrollview"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:id="@+id/scrollview"
+        app:layout_constraintTop_toBottomOf="@id/hometext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/signout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
 
     <RelativeLayout
         android:id="@+id/routebutton"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/yellow_button"
         android:clickable="true"
         android:gravity="center"
@@ -65,7 +77,7 @@
     <RelativeLayout
         android:id="@+id/scanbutton"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/yellow_button"
@@ -104,7 +116,7 @@
     <RelativeLayout
         android:id="@+id/passengersbutton"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/yellow_button"
@@ -143,7 +155,7 @@
     <RelativeLayout
         android:id="@+id/infobutton"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/yellow_button"
@@ -180,9 +192,9 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/settingsbutton"
+        android:id="@+id/updatesbutton"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/yellow_button"
@@ -193,6 +205,43 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/infobutton"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/updatesicon"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_marginStart="15dp"
+            android:foregroundGravity="center_horizontal"
+            app:srcCompat="@drawable/messageicon" />
+
+        <TextView
+            android:id="@+id/updatestext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/updatesicon"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/black"
+            android:text="Post and view status updates"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/settingsbutton"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/yellow_button"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="go_map"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/updatesbutton"
         android:focusable="true">
 
         <ImageView
@@ -216,6 +265,9 @@
             android:text="@string/settings"
             android:textSize="20sp" />
     </RelativeLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
     <RelativeLayout
         android:id="@+id/signout"
@@ -232,7 +284,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settingsbutton"
+        app:layout_constraintTop_toBottomOf="@id/scrollview"
         app:layout_constraintVertical_bias="0.728"
         tools:layout_editor_absoluteX="-10dp"
         android:focusable="true">
@@ -250,5 +302,6 @@
             android:text="@string/sign_out"
             android:textColor="@color/white"
             android:textSize="30sp" />
+
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

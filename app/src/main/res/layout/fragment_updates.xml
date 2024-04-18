@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.UpdatesFragment"
+    android:paddingStart="10dp"
+    android:background="@color/yellow">
+
+
+<EditText
+        android:id="@+id/titleEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:fontFamily="@font/montserrat_regular"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/statusEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/status_update"
+        android:fontFamily="@font/montserrat_regular"
+        android:padding="16dp"
+        android:layout_below="@id/titleEditText"/>
+
+    <TextView
+        android:id="@+id/visibilityTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/status_visibility"
+        android:layout_below="@id/statusEditText"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"/>
+
+
+
+    <RadioGroup
+        android:id="@+id/visibilityRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/visibilityTextView">
+
+        <RadioButton
+            android:id="@+id/publicRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="15sp"
+            android:text="Everyone"
+            android:padding="16dp"/>
+
+        <RadioButton
+            android:id="@+id/staffRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="15sp"
+            android:text="Staff"
+            android:padding="16dp"/>
+
+        <RadioButton
+            android:id="@+id/parentsRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="15sp"
+            android:text="Parents (this route)"
+            android:padding="16dp"/>
+
+    </RadioGroup>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/postButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_button"
+        android:text="Post"
+        android:fontFamily="@font/montserrat_regular"
+        android:layout_below="@id/visibilityRadioGroup"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/RVHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="All status updates:"
+        android:layout_below="@id/postButton"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RVparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/RVHeading"
+        android:layout_marginTop="16dp" />
+</RelativeLayout>

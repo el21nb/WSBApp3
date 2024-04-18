@@ -26,6 +26,7 @@ public class HomeFragment extends Fragment {
     RelativeLayout passengersButton;
     RelativeLayout infoButton;
     RelativeLayout settingsButton;
+    RelativeLayout updatesButton;
     RelativeLayout signoutButton;
 
     //Heading textview:
@@ -75,6 +76,7 @@ public class HomeFragment extends Fragment {
         passengersButton = view.findViewById(R.id.passengersbutton);
         infoButton = view.findViewById(R.id.infobutton);
         settingsButton = view.findViewById(R.id.settingsbutton);
+        updatesButton = view.findViewById(R.id.updatesbutton);
         signoutButton = view.findViewById(R.id.signout);
 
         hometext = view.findViewById(R.id.hometext);
@@ -95,6 +97,7 @@ public class HomeFragment extends Fragment {
         passengersButton.setOnClickListener(this::onClick);
         infoButton.setOnClickListener(this::onClick);
         settingsButton.setOnClickListener(this::onClick);
+        updatesButton.setOnClickListener(this::onClick);
         signoutButton.setOnClickListener(this::onClick);
 
         return view;
@@ -122,6 +125,9 @@ public class HomeFragment extends Fragment {
         } else if (view.getId() == R.id.settingsbutton) {
             // Navigate to the settings fragment
             navigateToFragment(new SettingsFragment());
+        } else if (view.getId() == R.id.updatesbutton) {
+            // Navigate to the settings fragment
+            navigateToFragment(new UpdatesFragment());
         } else if (view.getId() == R.id.signout) {
             // Handle signout
         }
