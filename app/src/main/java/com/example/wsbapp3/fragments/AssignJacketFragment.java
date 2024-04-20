@@ -50,12 +50,20 @@ public class AssignJacketFragment extends Fragment {
     private String ticketId;
 
     private TextView scanTitle;
+    PopupTextInput popup;
 
     Button scanJacketButton;
 
     Button findJacketButton;
+
+
     public AssignJacketFragment() {
         // Required empty public constructor
+    }
+
+    //constructor for popup dependency
+    public AssignJacketFragment(PopupTextInput popup) {
+        this.popup = popup;
     }
 
     /**
@@ -108,6 +116,8 @@ public class AssignJacketFragment extends Fragment {
         findJacketButton = view.findViewById(R.id.findJacketButton);
         scanJacketButton = view.findViewById(R.id.scanJacketButton);
         db = FirebaseFirestore.getInstance();
+        popup = new PopupTextInput();
+
         findJacketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +199,7 @@ public class AssignJacketFragment extends Fragment {
      * Calls checkCorrectJacket to handle input.
      */
     private void handleFindJacketButtonClick() {
-        PopupTextInput popup = new PopupTextInput();
+        popup = new PopupTextInput();
         String jacketId;
         // Show the popup and provide a callback for when the input is received
         popup.showPopupTextInput(requireContext(), "Enter Jacket Id", new PopupTextInput.InputCallback() {
