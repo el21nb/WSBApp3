@@ -50,6 +50,10 @@ public class AssignJacketFragment extends Fragment {
     private String ticketId;
 
     private TextView scanTitle;
+
+    private JacketProvider jacketProvider;
+
+    private TicketProvider ticketProvider;
     PopupTextInput popup;
 
     Button scanJacketButton;
@@ -163,8 +167,8 @@ public class AssignJacketFragment extends Fragment {
                     // Input receive. If dropping off, check it is the right jacket:
 
 
-                    JacketProvider provider = new JacketProvider();
-                    provider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
+                    JacketProvider jacketProvider = new JacketProvider();
+                    jacketProvider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
                         @Override
                         public void onJacketFetched(Jacket jacket) {
                             String ticketId = getArguments().getString(TICKET_ID);
@@ -209,8 +213,8 @@ public class AssignJacketFragment extends Fragment {
                     // Input receive. If dropping off, check it is the right jacket:
 
 
-                    JacketProvider provider = new JacketProvider();
-                    provider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
+                    jacketProvider = new JacketProvider();
+                    jacketProvider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
                         @Override
                         public void onJacketFetched(Jacket jacket) {
                             String ticketId = getArguments().getString(TICKET_ID);
@@ -247,8 +251,8 @@ public class AssignJacketFragment extends Fragment {
      */
     private void checkCorrectJacket(String jacketId, String ticketId) { //if pick up, calls next fragment, if drop off checks jacket is correct
         boolean correctJacket;
-        TicketProvider tProvider = new TicketProvider();
-        tProvider.fetchTicketById(ticketId, new TicketProvider.FetchTicketCallback() {
+        ticketProvider = new TicketProvider();
+        ticketProvider.fetchTicketById(ticketId, new TicketProvider.FetchTicketCallback() {
             @Override
             public void onTicketFetched(Ticket ticket) {
                 if (ticket.isPickUp()) {
