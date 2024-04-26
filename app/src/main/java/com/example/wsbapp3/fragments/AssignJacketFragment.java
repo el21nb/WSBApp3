@@ -56,6 +56,10 @@ public class AssignJacketFragment extends Fragment {
 
     Button findJacketButton;
 
+    JacketProvider jacketProvider;
+    TicketProvider ticketProvider;
+    FragmentManager  fragmentManager;
+
 
     public AssignJacketFragment() {
         // Required empty public constructor
@@ -64,6 +68,27 @@ public class AssignJacketFragment extends Fragment {
     //constructor for popup dependency
     public AssignJacketFragment(PopupTextInput popup) {
         this.popup = popup;
+    }
+
+
+    public void setJacketProvider(JacketProvider jacketProvider) {
+        this.jacketProvider = jacketProvider;
+    }
+
+    public void setTicketProvider(TicketProvider ticketProvider) {
+        this.ticketProvider = ticketProvider;
+    }
+
+    public JacketProvider getJacketProvider() {
+        return jacketProvider;
+    }
+
+    public TicketProvider getTicketProvider() {
+        return ticketProvider;
+    }
+
+    public void setFragmentManager(FragmentManager fragmentManager) {
+        this.fragmentManager = fragmentManager;
     }
 
     /**
@@ -127,7 +152,6 @@ public class AssignJacketFragment extends Fragment {
         scanJacketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 IntentIntegrator intentIntegrator = new IntentIntegrator(requireActivity());
                 intentIntegrator.setOrientationLocked(false);
@@ -135,8 +159,6 @@ public class AssignJacketFragment extends Fragment {
                 intentIntegrator.setOrientationLocked(true);
                 intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                 intentIntegrator.forSupportFragment(AssignJacketFragment.this).initiateScan();
-                intentIntegrator.forSupportFragment(AssignJacketFragment.this).initiateScan();
-
             }
         });
         return view;
@@ -163,8 +185,8 @@ public class AssignJacketFragment extends Fragment {
                     // Input receive. If dropping off, check it is the right jacket:
 
 
-                    JacketProvider provider = new JacketProvider();
-                    provider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
+                    jacketProvider = new JacketProvider();
+                    jacketProvider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
                         @Override
                         public void onJacketFetched(Jacket jacket) {
                             String ticketId = getArguments().getString(TICKET_ID);
@@ -198,7 +220,7 @@ public class AssignJacketFragment extends Fragment {
      * Calls popup dialog, and fetches text input.
      * Calls checkCorrectJacket to handle input.
      */
-    private void handleFindJacketButtonClick() {
+    void handleFindJacketButtonClick() {
         popup = new PopupTextInput();
         String jacketId;
         // Show the popup and provide a callback for when the input is received
@@ -209,8 +231,8 @@ public class AssignJacketFragment extends Fragment {
                     // Input receive. If dropping off, check it is the right jacket:
 
 
-                    JacketProvider provider = new JacketProvider();
-                    provider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
+                    jacketProvider = new JacketProvider();
+                    jacketProvider.fetchJacketById(jacketId, new JacketProvider.FetchJacketCallback() {
                         @Override
                         public void onJacketFetched(Jacket jacket) {
                             String ticketId = getArguments().getString(TICKET_ID);
@@ -245,10 +267,10 @@ public class AssignJacketFragment extends Fragment {
      * @param jacketId
      * @param ticketId
      */
-    private void checkCorrectJacket(String jacketId, String ticketId) { //if pick up, calls next fragment, if drop off checks jacket is correct
+    void checkCorrectJacket(String jacketId, String ticketId) { //if pick up, calls next fragment, if drop off checks jacket is correct
         boolean correctJacket;
-        TicketProvider tProvider = new TicketProvider();
-        tProvider.fetchTicketById(ticketId, new TicketProvider.FetchTicketCallback() {
+        ticketProvider= new TicketProvider();
+        ticketProvider.fetchTicketById(ticketId, new TicketProvider.FetchTicketCallback() {
             @Override
             public void onTicketFetched(Ticket ticket) {
                 if (ticket.isPickUp()) {
@@ -313,11 +335,11 @@ public class AssignJacketFragment extends Fragment {
      * @param jacketId Id of assigned/deassigned jacket
      * @param ticketId Id of ticket
      */
-    private void loadScanAgainFragment(String jacketId, String ticketId) {
+    void loadScanAgainFragment(String jacketId, String ticketId) {
         //Create new instance of scanAgainFragment,
         ScanAgainFragment scanAgainFragment = ScanAgainFragment.newInstance(jacketId, ticketId);
 
-        FragmentManager fragmentManager = getParentFragmentManager();
+        fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, scanAgainFragment);
 

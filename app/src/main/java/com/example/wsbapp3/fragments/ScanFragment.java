@@ -128,7 +128,6 @@ public class ScanFragment extends Fragment {
                 intentIntegrator.setOrientationLocked(true);
                 intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                 intentIntegrator.forSupportFragment(ScanFragment.this).initiateScan();
-                intentIntegrator.forSupportFragment(ScanFragment.this).initiateScan();
 
             }
         });
