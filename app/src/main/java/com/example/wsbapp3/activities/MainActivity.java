@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     //ID for the current journey, used by several fragments
     private String currentJourneyId;
 
-    private ActivityMainBinding binding;
+    ActivityMainBinding binding;
 
     public String getCurrentJourneyId() {
         return currentJourneyId;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         this.currentJourneyId = currentJourneyId;
     }
 
-    private final ActivityResultLauncher<String> requestPermissionLauncher =
+    final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
                     // FCM SDK (and your app) can post notifications.
@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
             });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //Initialise current journey Id, can be changed
+        currentJourneyId = "AppelbeesK102102024AM";
+
         //Create View
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
@@ -71,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        //load home fragment
         replaceFragment(new HomeFragment());
 
 
@@ -91,13 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        //Initialise current journey Id, can be changed
-        currentJourneyId = "AppelbeesK102102024AM";
-        //Preload database, does not need to be done every time.
-        //TODO: move to a cloud function
-        //DatabaseProvider provider = new DatabaseProvider();
-        //provider.initialiseDatabase(currentJourneyId); //load database
-
 
     }
 
@@ -106,28 +104,24 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param fragment new fragment to be loaded
      */
-    private void replaceFragment(Fragment fragment) {
+    void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setReorderingAllowed(true);
         fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.addToBackStack(null); // Add to back stack
+        fragmentTransaction.addToBackStack(null); // Add to back stack to allow back navigation
         fragmentTransaction.commit();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout); // Replace R.id.fragment_container with your fragment's container id
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
         if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
-
-
-
-
-
 
 }
 

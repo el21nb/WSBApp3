@@ -141,24 +141,19 @@ public class ScanFragment extends Fragment {
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
-            Log.d("scan", "result non null");
-
             if (result.getContents() == null) {
-                // If result is null, handle cancellation or error
+                // handle null result
                 Toast.makeText(requireContext(), "Scan canceled", Toast.LENGTH_SHORT).show();
             } else {
                 // Process the scanned data
                 String ticketId = result.getContents();
                 Log.d("scan", "got ticketId" + ticketId);
 
-                // Now fetch the ticket from Firestore using the ticketId
+                //fetch the ticket from Firestore by ticketId
                 TicketProvider provider = new TicketProvider();
                 provider.fetchTicketById(ticketId, new TicketProvider.FetchTicketCallback() {
                     @Override
                     public void onTicketFetched(Ticket ticket) {
-                        // Your logic to handle the fetched ticket
-                        // Ensure that the fetched ticket is processed correctly
-                        // and you perform the necessary actions, such as loading a ticket fragment
                         MainActivity mainActivity = (MainActivity) requireActivity();
                         String currentJourneyId = mainActivity.getCurrentJourneyId();
                         Log.d("ScanAc", "currentJourneyId = " + currentJourneyId);

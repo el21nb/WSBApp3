@@ -90,17 +90,17 @@ public class InfoFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_info, container, false);
         rvParent = v.findViewById(R.id.RVparent);
 
-        //Initialise info list for parent rv
+        //Initialise info list for RV
         infoListItemArrayList = new ArrayList<>();
 
-        //call method to populate the recyclerviews
+        //call method to populate the RVs
         populateInfoList();
 
         return v;
     }
 
     /**
-     * Populates the parent and nested recyckerviews from the database
+     * Populates the recylcerview from the strings in this fragment
      */
     public void populateInfoList() {
         FirebaseFirestore db = FirebaseFirestore.getInstance(); // Initialize Firestore

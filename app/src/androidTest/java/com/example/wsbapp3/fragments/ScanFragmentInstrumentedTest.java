@@ -99,12 +99,12 @@ import java.util.concurrent.Executors;
 
 /*Tests for the AssignJacketFragment*/
 @RunWith(AndroidJUnit4.class)
-public class AssignJacketFragmentInstrumentedTest {
+public class ScanFragmentInstrumentedTest {
     @Before
     public void setUp() {
         //Launch activity and fragment within it
         ActivityScenario.launch(MainActivity.class);
-        FragmentScenario.launchInContainer(AssignJacketFragment.class);
+        FragmentScenario.launchInContainer(ScanFragment.class);
         Intents.init();
     }
 
@@ -115,32 +115,32 @@ public class AssignJacketFragmentInstrumentedTest {
 
     /*Test correct UI display*/
     @Test
-    public void testFindJacketButtonDisplayed() {
-        onView(withId(R.id.findJacketButton)).check(matches(isDisplayed()));
+    public void testFindTicketButtonDisplayed() {
+        onView(withId(R.id.findTicketButton)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void testScanJacketButtonDisplayed() {
-        onView(withId(R.id.scanJacketButton)).check(matches(isDisplayed()));
+    public void testScanTicketButtonDisplayed() {
+        onView(withId(R.id.scanTicketButton)).check(matches(isDisplayed()));
     }
-    /*Tests if clicking Scan Jacket launches zxing scanner*/
+    /*Tests if clicking Scan Ticket launches zxing scanner*/
     @Test
-    public void testScanJacketButtonClick_launchesScanner() {
+    public void testScanTicketButtonClick_launchesScanner() {
         //simulate scan button click
-        onView(withId(R.id.scanJacketButton)).perform(click());
+        onView(withId(R.id.scanTicketButton)).perform(click());
 
         // Verify scan is initiated
         intended(hasAction("com.google.zxing.client.android.SCAN"));
 
     }
-    /*tests if clicking Find Jacket Manually launches a pop-up text input dialogue*/
+    /*tests if clicking Find Ticket Manually launches a pop-up text input dialogue*/
     @Test
-    public void testHandleFindJacketButtonClick_launchesPopup() {
+    public void testHandleFindTicketButtonClick_launchesPopup() {
         //simulate button click
-        onView(withId(R.id.findJacketButton)).perform(click());
+        onView(withId(R.id.findTicketButton)).perform(click());
 
         //verify popup dialog visible
-        onView(withText("Enter Jacket Id"))
+        onView(withText("Enter Ticket Id"))
                 .inRoot(isDialog())
                 .check(matches(isDisplayed()));
     }

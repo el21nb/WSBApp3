@@ -91,6 +91,8 @@ public class AssignJacketFragment extends Fragment {
         this.fragmentManager = fragmentManager;
     }
 
+
+
     /**
      * Create new instance of AssignJacketFragment, using TicketId paremeter
      *
