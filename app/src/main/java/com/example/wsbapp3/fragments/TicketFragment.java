@@ -25,7 +25,6 @@ import com.example.wsbapp3.models.Ticket;
  * Calls pickUpPassenger or dropOffPassenger to write to database.
  * Confirms passenger picked up/dropped off onscreen.
  * Button directs to AssignJacketFragment.
- * Todo: finish UI
  */
 public class TicketFragment extends Fragment {
 

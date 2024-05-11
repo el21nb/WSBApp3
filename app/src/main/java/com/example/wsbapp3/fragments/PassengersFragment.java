@@ -127,7 +127,7 @@ public class PassengersFragment extends Fragment {
     }
 
     /**
-     * Populates passengerList with data fromt the passengers subcollection in the journey document
+     * Populates passengerList with data from the passengers subcollection in the journey document
      *
      * @param journeyId id of the journey document to enter
      */

@@ -28,7 +28,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 /**
  * WarningFragment- accepts a jacketId, communicates which child is out of range, offers navigation options to
  * childInfoFragment, InfoFragment, or to return to previous fragment
- * TODO: update the UI.
  */
 public class WarningFragment extends Fragment {
 
@@ -169,9 +168,9 @@ public class WarningFragment extends Fragment {
 
     /**
      * Upon successful child fetch.
-     * Write string.
+     * Write string including child name.
      * Make childInfo button visible and set onclicklistener
-     * @param child
+     * @param child  Child object passed in
      */
     private void childFound(Child child) {
         String testString =

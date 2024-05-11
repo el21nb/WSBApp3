@@ -20,11 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 
-//https://github.com/Tesla-gamer/login-signup-app/blob/master/app/src/main/java/com/example/appproject/LoginActivity.java
 
 /**
  * LoginActivity
- * Launcher page- allows login with authenticated Driver account, then loads MainActivityy
+ * Launcher page- allows login with authenticated Driver account, then loads MainActivity
+ * https://github.com/Tesla-gamer/login-signup-app/blob/master/app/src/main/java/com/example/appproject/LoginActivity.java
  */
 public class LoginActivity extends AppCompatActivity {
     private EditText etUsername;
@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                 boolean isDriver = (boolean) result.getClaims().get("driver");
                 if (isDriver) {
                     //If Driver, launch MainActivity
-                    Toast.makeText(LoginActivity.this, "Driver signed in", Toast.LENGTH_SHORT);
+                    Toast.makeText(LoginActivity.this, "Driver signed in", Toast.LENGTH_SHORT).show();;
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 } else {
                     //If not a Driver, show warning

@@ -76,7 +76,7 @@ public class SettingsFragment extends Fragment {
     }
 
     /**
-     * Generate a fake out-of range jacket warning
+     * Button press to generate a fake out-of range jacket warning
      */
     private void onWarningButtonClick() {
         WarningFragment warningFragment = WarningFragment.newInstance("JA05");
