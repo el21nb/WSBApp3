@@ -45,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
         this.currentJourneyId = currentJourneyId;
     }
 
+    /**
+     * Get permission to show notifications
+     */
+
     final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
@@ -53,11 +57,20 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Warning: no notifications will be shown!", Toast.LENGTH_SHORT).show();
                 }
             });
+
+    /**
+     * onCreate:
+     * inflateLayouts, set Listeners, subscribe to notification channel
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         //Initialise current journey Id, can be changed
-        currentJourneyId = "AppelbeesK102102024AM";
+        setCurrentJourneyId("AppelbeesK102102024AM");
 
         //Create View
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

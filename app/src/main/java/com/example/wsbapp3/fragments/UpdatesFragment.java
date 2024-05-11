@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Updates Fragment: functionality to post a status with visibiltiy settings, and to fetch and display statuses from firesotre
  * A simple {@link Fragment} subclass.
  * Use the {@link UpdatesFragment#} factory method to
  * create an instance of this fragment.
@@ -70,10 +71,8 @@ public class UpdatesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_updates, container, false);
 
-        // Initialize Firestore
+        // Initialisations
         firestore = FirebaseFirestore.getInstance();
-
-        // Initialize Views
         titleEditText = view.findViewById(R.id.titleEditText);
         statusEditText = view.findViewById(R.id.statusEditText);
         visibilityRadioGroup = view.findViewById(R.id.visibilityRadioGroup);
@@ -82,13 +81,15 @@ public class UpdatesFragment extends Fragment {
         publicRadioButton = view.findViewById(R.id.publicRadioButton);
         staffRadioButton = view.findViewById(R.id.staffRadioButton);
         RVparent =view.findViewById(R.id.RVparent);
+
+        //set radio button selector colours
         int selectedColor = getResources().getColor(R.color.darkBlue);
         ColorStateList colorStateList = ColorStateList.valueOf(selectedColor);
         parentsRadioButton.setButtonTintList(colorStateList);
         publicRadioButton.setButtonTintList(colorStateList);
         staffRadioButton.setButtonTintList(colorStateList);
 
-        // Set click listener for post button
+        // Set on click listener for post button: calls postStatus
 
         fetchUpdates();
         postButton.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +102,9 @@ public class UpdatesFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Verify all fields filled, then post status to Firestore
+     */
     private void postStatus() {
 
         String title = titleEditText.getText().toString();
@@ -118,11 +122,12 @@ public class UpdatesFragment extends Fragment {
         RadioButton selectedRadioButton = getView().findViewById(selectedVisibilityId);
         String visibility = selectedRadioButton.getText().toString();
 
-        // Create a Map to store status data
+        // Store status data in a map
         Map<String, Object> statusData = new HashMap<>();
         statusData.put("title", title);
         statusData.put("status", status);
         statusData.put("visibility", visibility);
+        //fetch current date and time
         statusData.put("datetime", FieldValue.serverTimestamp());
 
         // Add the status to Firestore
@@ -133,6 +138,7 @@ public class UpdatesFragment extends Fragment {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(requireContext(), "Update sent!", Toast.LENGTH_SHORT).show();
+                        //Update status list:
                         fetchUpdates();
                         titleEditText.setText("");
                         statusEditText.setText("");
@@ -146,6 +152,9 @@ public class UpdatesFragment extends Fragment {
                 });
     }
 
+    /**
+     * fetch visible statuses from Firestore
+     */
     public void fetchUpdates(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Statuses")
@@ -155,16 +164,18 @@ public class UpdatesFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             ArrayList<UpdatesListItem> updatesList = new ArrayList<>();
+                            //iterate through the documents in the Statuses collection
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String title = document.getString("title") + "\nPosted: "+ document.getTimestamp("datetime").toDate().toString();
                                 String message = document.getString("status");
-                                // You need to adjust this according to your data structure in Firestore
-                                // Construct a new UpdatesListItem object and add it to the list
+
+                                //Add data to updatesListItem
                                 UpdatesListItem updatesListItem = new UpdatesListItem(title, message);
+                                //add item to updatesList
                                 updatesList.add(updatesListItem);
 
                             }
-                            // Pass the updatesList to the adapter
+                            // Pass updatesList to the adapter
                             updatesAdapter = new UpdatesAdapter(requireActivity(), requireActivity().getSupportFragmentManager(), updatesList);
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
                             RVparent.setLayoutManager(linearLayoutManager);

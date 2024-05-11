@@ -33,7 +33,7 @@ import java.util.List;
 public class PassengersFragment extends Fragment {
 
     //List of string arrays of passenger data
-    private List<String[]> passengerList;
+    List<String[]> passengerList;
     private RecyclerView recyclerView;
     private PassengerAdapter adapter;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -56,6 +56,14 @@ public class PassengersFragment extends Fragment {
         if (getArguments() != null) {
         }
 
+    }
+    /**injection getter/setter for testing*/
+    public FirebaseFirestore getDb() {
+        return db;
+    }
+
+    public void setDb(FirebaseFirestore db) {
+        this.db = db;
     }
 
     /**
@@ -90,10 +98,10 @@ public class PassengersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        db = FirebaseFirestore.getInstance();
 
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
         // Initialize passengerList
         passengerList = new ArrayList<>();
 
