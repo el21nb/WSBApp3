@@ -51,6 +51,10 @@ public class InfoFragment extends Fragment {
     //Parent recyclerview
     RecyclerView rvParent;
 
+    /**
+     * InfoFragment: contains a recyclerview of expandable info tabs.
+     * Recyclerview populated by local data, at the bottom of this fragment.
+     */
     public InfoFragment() {
         // Required empty public constructor
     }
@@ -90,27 +94,22 @@ public class InfoFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_info, container, false);
         rvParent = v.findViewById(R.id.RVparent);
 
-        //Initialise info list for parent rv
+        //Initialise info list for RV
         infoListItemArrayList = new ArrayList<>();
 
-        //call method to populate the recyclerviews
+        //call method to populate the RVs
         populateInfoList();
 
         return v;
     }
 
     /**
-     * Populates the parent and nested recyckerviews from the database
+     * Populates the recyclerview from the strings in this fragment
      */
     public void populateInfoList() {
         FirebaseFirestore db = FirebaseFirestore.getInstance(); // Initialize Firestore
         infoListItemArrayList = new ArrayList<>();
         makeInfoList();
-        int totalInfos = infoSegments.size();
-
-                            //Counter to ensure all children fetched before fetching next bus stop
-                            AtomicInteger completedInfos = new AtomicInteger(0);
-
                             for (Pair<String, String> infoPair : infoSegments) {
 
                                 if (infoPair != null) {
@@ -120,8 +119,6 @@ public class InfoFragment extends Fragment {
                                     //Create infoListItem
                                     InfoListItem infoListItem = new InfoListItem(heading, body);
                                     infoListItemArrayList.add(infoListItem);
-
-
                                 }
 
     }
@@ -131,6 +128,10 @@ public class InfoFragment extends Fragment {
         rvParent.setAdapter(infoAdapter);
 
     }
+
+    /**
+     * Build list of heading-body pairs, from local strings.
+     */
     public void makeInfoList() {
         infoSegments = new ArrayList<>();
         infoSegments.add(new Pair<>("Using the App",

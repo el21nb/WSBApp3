@@ -12,11 +12,20 @@ public class Ticket {
     private String childId;
     private String busStopId;
     private String journeyId;
-
     private String ownerId;
 
     public Ticket() {
     }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+
 
     public Ticket(String ticketId, boolean schoolTicket, boolean pickUp, String childId, String busStopId, String journeyId, String ownerId) {
         this.ticketId = ticketId;

@@ -22,7 +22,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 /**
  * ScanAgainFragment- confirms jacket assignment.
  * Buttons to redirect either to ScanFragment or PassengersFragment.
- * TODO: update the UI.
  */
 public class ScanAgainFragment extends Fragment {
 
@@ -178,7 +177,7 @@ public class ScanAgainFragment extends Fragment {
     }
 
     /**
-     * Hanles scan button click.
+     * Handles scan button click.
      * Replaces fragment with ScanFragment
      */
     private void onScanButtonClick() {

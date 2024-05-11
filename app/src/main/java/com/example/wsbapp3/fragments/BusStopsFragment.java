@@ -132,10 +132,8 @@ public class BusStopsFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             int totalBusStops = task.getResult().size();
-
                             //Counter to ensure all children fetched before fetching next bus stop
                             AtomicInteger completedBusStops = new AtomicInteger(0);
-
                             //Iterate through journey bus stops
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map<String, Object> busStopData = (Map<String, Object>) document.get("busStop");

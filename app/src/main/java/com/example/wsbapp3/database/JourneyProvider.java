@@ -2,9 +2,12 @@ package com.example.wsbapp3.database;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.wsbapp3.database.BusStopProvider;
 import com.example.wsbapp3.models.BusStop;
 import com.example.wsbapp3.models.Child;
+import com.example.wsbapp3.models.Contact;
 import com.example.wsbapp3.models.Journey;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -13,8 +16,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JourneyProvider {
@@ -27,6 +35,65 @@ public class JourneyProvider {
     public JourneyProvider() {
         //empty constructor
     }
+
+    public void fetchPassengerByJacketId(String jacketId, String journeyId, FetchPassengerByJacketCallback callback) {
+        // Reference to the passenger document
+        CollectionReference passengersRef = db.collection("Journeys").document(journeyId).collection("Passengers");
+        passengersRef
+                .whereEqualTo("Jacket", jacketId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //get the fist passenger document
+                                DocumentSnapshot passengerDocument = task.getResult().getDocuments().get(0);
+                                //Extract Child Array
+                                Map<String, Object> childMap = (Map<String, Object>) passengerDocument.get("Child");
+                                //Rebuild Child object
+                                String id = (String) childMap.get("id");
+                                String firstName = (String) childMap.get("firstName");
+                                String lastName = (String) childMap.get("lastName");
+
+
+//                                List<Contact> contacts = ( List<Contact>) childMap.get("childContacts");
+//                                String contactName = (String) childMap.get("contactName");
+//                                String contactDetail = (String) childMap.get("contactDetail");
+                                List<Map<String, String>> contactMaps = (List<Map<String, String>>) childMap.get("childContacts");
+                                List<Contact> contacts = new ArrayList<>();
+                                for (Map<String, String> contactMap : contactMaps) {
+                                    String contactName = contactMap.get("name");
+                                    String contactDetail = contactMap.get("contactDetail");
+                                    contacts.add(new Contact(contactName, contactDetail));
+                                }
+
+                                String classCode = (String) childMap.get("classCode");
+                                String parentId = (String) childMap.get("parentId");
+                                Child child = new Child(id, firstName, lastName, contacts.get(0).getName(), contacts.get(0).getContactDetail(), classCode, parentId);
+
+                                //Pass child to callback
+                                callback.onPassengerByJacketFetched(child);
+                            }
+                        } else {
+                            callback.onFetchFailed(task.getException().getMessage());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Callback to handle passenger fetch result
+     */
+    public interface FetchPassengerByJacketCallback {
+        void onPassengerByJacketFetched(Child child);
+
+        void onPassengerByJacketNotFound();
+
+        void onFetchFailed(String errorMessage);
+    }
+
+
 
     /**
      * Adds a jacket deassignment timestamp to a child in the passengers subcollection within a journey document

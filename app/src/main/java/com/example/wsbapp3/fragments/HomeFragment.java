@@ -1,7 +1,11 @@
 package com.example.wsbapp3.fragments;
 
 import com.example.wsbapp3.R;
+import com.example.wsbapp3.activities.LoginActivity;
+import com.example.wsbapp3.activities.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -129,7 +134,10 @@ public class HomeFragment extends Fragment {
             // Navigate to the settings fragment
             navigateToFragment(new UpdatesFragment());
         } else if (view.getId() == R.id.signout) {
-            // Handle signout
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            firebaseAuth.signOut();
+            Toast.makeText(requireContext(), "Driver signed out", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(requireContext(), LoginActivity.class));
         }
     }
 

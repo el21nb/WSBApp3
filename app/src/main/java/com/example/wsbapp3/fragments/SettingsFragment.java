@@ -2,6 +2,7 @@ package com.example.wsbapp3.fragments;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -11,10 +12,11 @@ import android.view.ViewGroup;
 import com.example.wsbapp3.R;
 
 /**
- * TODO: set up
- * Will have a menu of settings/preferences
+ * Generate a test warning
  */
 public class SettingsFragment extends Fragment {
+
+    AppCompatButton warningButton;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -43,6 +45,7 @@ public class SettingsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+
     }
 
     /**
@@ -59,6 +62,28 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View v =  inflater.inflate(R.layout.fragment_settings, container, false);
+        warningButton = v.findViewById(R.id.warningButton);
+        //Initialise views
+        warningButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onWarningButtonClick();
+            }
+        });
+        return v;
+
+    }
+
+    /**
+     * Button press to generate a fake out-of range jacket warning
+     */
+    private void onWarningButtonClick() {
+        WarningFragment warningFragment = WarningFragment.newInstance("JA05");
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameLayout, warningFragment)
+                .addToBackStack(null)  // Don't add to backstack. This only accessible via warning notification
+                .commit();
+
     }
 }

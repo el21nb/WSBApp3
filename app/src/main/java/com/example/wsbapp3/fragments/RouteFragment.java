@@ -3,8 +3,12 @@ package com.example.wsbapp3.fragments;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,6 +53,7 @@ import java.util.Map;
  * Button to open BusStopsFragment.
  * Adapted from:
  * https://stackoverflow.com/questions/15433820/mapfragment-in-fragment-alternatives
+ * https://stackoverflow.com/questions/40142331/how-to-request-location-permission-at-runtime
  */
 public class RouteFragment extends Fragment implements OnMapReadyCallback {
 
@@ -74,6 +79,14 @@ public class RouteFragment extends Fragment implements OnMapReadyCallback {
             drawRoute(googleMap);
             routeDrawn = true;
         }
+        //Get location permission
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1001);
+            return;
+        }
+        //Show location on map
+        googleMap.setMyLocationEnabled(true);
     }
 
     @Nullable
@@ -194,4 +207,5 @@ public class RouteFragment extends Fragment implements OnMapReadyCallback {
             }
         });
     }
+
 }
